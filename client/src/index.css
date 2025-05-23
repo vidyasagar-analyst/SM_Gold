@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-slate-50;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100vw;
+}
+
+h2 {
+  @apply text-xl text-[#263238] font-bold;
+}
+
+h3 {
+  @apply text-base text-[#263238] font-bold;
+}
+
+h4 {
+  @apply text-[12px] text-[#263238] font-bold;
+}
+
+p {
+  @apply text-sm text-[#757575];
+}
+
+.text-primary {
+  @apply text-[#263238];
+}
+
+.text-secondary {
+  @apply text-[#757575];
+}
+
+.text-danger {
+  @apply text-red-500;
+}
+
+.bg-secondary {
+  @apply bg-[#757575];
+}
+
+.bg-danger {
+  @apply bg-red-500;
+}
+
+/* TO hide number input arrows */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
