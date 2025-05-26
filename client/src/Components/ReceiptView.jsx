@@ -1,26 +1,6 @@
 import React from "react";
 
-const ReceiptView = ({ custId, custName, address, mobileNumber }) => {
-  const now = new Date();
-  const today = now.toDateString();
-
-  const newDate = today.slice(4).replaceAll(" ", "-");
-  console.log(newDate);
-
-  const nextDueMonth = new Date(
-    now.getFullYear(),
-    now.getMonth() + 1,
-    now.getDate()
-  ).toDateString();
-  const nextDueYear = new Date(
-    now.getFullYear() + 1,
-    now.getMonth(),
-    now.getDate()
-  ).toDateString();
-
-  console.log(nextDueMonth);
-  console.log(nextDueYear);
-
+const ReceiptView = ({ customer }) => {
   return (
     <>
       {/* Header */}
@@ -54,20 +34,20 @@ const ReceiptView = ({ custId, custName, address, mobileNumber }) => {
             <p>Maturity</p>
           </div>
           <div className="col flex flex-col gap-2">
-            <p className="font-bold">{custName}</p>
-            <p className="font-bold">{custId}</p>
-            <p className="font-bold">{address}</p>
-            <p className="font-bold">635108</p>
-            <p className="font-bold">{mobileNumber}</p>
-            <p className="font-bold">50000</p>
+            <p className="font-bold">{customer?.custName}</p>
+            <p className="font-bold">{customer?.custID}</p>
+            <p className="font-bold">{customer?.address}</p>
+            <p className="font-bold">{customer?.pincode}</p>
+            <p className="font-bold">{customer?.mobile}</p>
+            <p className="font-bold">₹. {customer?.loanAmount}</p>
             <p className="font-bold">00990088779900</p>
-            <p className="font-bold">{newDate}</p>
-            <p className="font-bold">SM_GOLD</p>
+            <p className="font-bold">{customer?.pledgeDate}</p>
+            <p className="font-bold">{customer?.schema}</p>
             <p className="font-bold">75</p>
             <p className="font-bold">365 Days</p>
-            <p className="font-bold">{custName + " Nominee"}</p>
-            <p className="font-bold">{nextDueMonth}</p>
-            <p className="font-bold">{nextDueYear}</p>
+            <p className="font-bold">{customer?.nominee}</p>
+            <p className="font-bold">{customer?.interestDue}</p>
+            <p className="font-bold">{customer?.maturity}</p>
           </div>
         </div>
 
@@ -134,7 +114,7 @@ const ReceiptView = ({ custId, custName, address, mobileNumber }) => {
         <div className="leading-6 tracking-wide mb-10">
           <p className="inline">ON DEMAND, I </p>
           <p className="w-80 border-b-2 border-dotted inline-block px-5">
-            {custName}
+            {customer?.custName}
           </p>
           <p className="inline">
             promise to pay to Sri Mahalakshmi Gold Loan or order the sum of Rs

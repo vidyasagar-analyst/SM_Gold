@@ -1,26 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaPlus } from "react-icons/fa";
 import CustCard from "../Components/CustCard";
 import { custDetails } from "../Utils/data";
 import { Link } from "react-router-dom";
 import InfoCard from "../Components/InfoCard";
+import { AppContext } from "../Utils/AppContext";
 
 const Home = () => {
   const currMonth = new Date().toDateString().slice(4, 7);
   const currYear = new Date().getFullYear();
-  // {currMonth} Month - {currYear}
+
+  const { customerData } = useContext(AppContext);
   return (
-    <div className="flex justify-center py-10">
+    <div className="flex justify-center py-10 mt-[80px]">
       <div className="w-3/4">
         <div className="flex items-center justify-between mb-5">
-          <InfoCard heading={25} subTitle="Total Customers" />
           <InfoCard
-            heading={10}
+            heading={customerData?.totalCustomerCount}
+            subTitle="Total Customers"
+          />
+          <InfoCard
+            heading={customerData?.currentMonthCustomerCount}
             subTitle={`${currMonth} Month - ${currYear} customers`}
           />
           <InfoCard
-            heading="₹. 200000"
-            subTitle={`${currMonth} Month - ${currYear} Amount`}
+            heading={`₹.${customerData?.currentMonthLoanAmount}`}
+            subTitle={`${currMonth} Month - ${currYear} Loan Amount`}
           />
         </div>
         <div className="flex items-center justify-between">
@@ -30,24 +35,24 @@ const Home = () => {
           </div>
           <Link
             to="/add-customer"
-            className="px-4 py-2 flex items-center gap-2 border-2 text-[12px] border-gray-800 rounded-lg hover:shadow cursor-pointer uppercase font-bold hover:border-gray-600 hover:text-gray-600"
+            className="px-4 py-2 flex items-center gap-2 border-2 text-[12px] border-gray-800 rounded-lg hover:shadow cursor-pointer uppercase font-bold hover:border-gray-600 hover:text-gray-600 hover:bg-gray-300/25"
           >
             <FaPlus /> add new cust
           </Link>
         </div>
 
         <div className="mt-8">
-          {custDetails
-            .slice(-5)
-            .reverse()
-            .map((cust) => {
+          {customerData?.allCustomersList
+            ?.slice(-5)
+            ?.reverse()
+            ?.map((cust) => {
               return (
                 <CustCard
-                  custId={cust.custId}
+                  custId={cust.custID}
                   custName={cust.custName}
                   address={cust.address}
-                  mobileNumber={cust.mobileNumber}
-                  key={cust.custId}
+                  mobileNumber={cust.mobile}
+                  key={cust.custID}
                 />
               );
             })}

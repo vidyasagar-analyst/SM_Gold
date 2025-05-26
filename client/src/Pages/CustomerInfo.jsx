@@ -1,22 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
-import { custDetails } from "../Utils/data";
 import ReceiptView from "../Components/ReceiptView";
+import { AppContext } from "../Utils/AppContext";
 
 const CustomerInfo = () => {
   const { id } = useParams();
+  const { customerData } = useContext(AppContext);
 
-  const customer = custDetails.find((cust) => cust?.custId == id);
+  const customer = customerData?.allCustomersList?.find(
+    (cust) => cust?.custID == id
+  );
 
   return (
-    <div className="py-20 flex items-center justify-center">
+    <div className="py-20 flex items-center justify-center mt-20">
       <div className="w-3/4 px-20 py-10">
-        <ReceiptView
-          custId={customer.custId}
-          custName={customer.custName}
-          address={customer.address}
-          mobileNumber={customer.mobileNumber}
-        />
+        <ReceiptView customer={customer} />
       </div>
     </div>
   );

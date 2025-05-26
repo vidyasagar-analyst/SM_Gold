@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const CustCard = ({ custId, custName, address, mobileNumber }) => {
   return (
-    <div className="p-4 border border-gray-300 rounded-lg my-3">
+    <div className="p-4 border border-gray-400/25 hover:shadow rounded-lg my-3 bg-gray-200/35">
       <div className="flex justify-between items-start">
         <div className="">
           <Link to={`/customer/${custId}`} className="flex items-center gap-2">

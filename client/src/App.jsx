@@ -8,24 +8,37 @@ import CustomerInfo from "./Pages/CustomerInfo";
 import Navbar from "./Components/Navbar";
 import AddCustomer from "./Pages/AddCustomer";
 import AllCustomers from "./Pages/AllCustomers";
+import AppContextProvider from "./Utils/AppContext";
+
+import { Toaster } from "sonner";
+import Missing from "./Pages/Missing";
+import Footer from "./Components/Footer";
+import ControlCenter from "./Pages/ControlCenter";
 
 const App = () => {
   return (
     <div className="px-20">
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/auth/login" element={<Login />} />
-          <Route path="/auth/signup" element={<Signup />} />
+      <AppContextProvider>
+        <Router>
+          <Navbar />
+          <Toaster richColors position="top-right" />
 
-          <Route element={<Protected />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/customers" element={<AllCustomers />} />
-            <Route path="/customer/:id" element={<CustomerInfo />} />
-            <Route path="/add-customer" element={<AddCustomer />} />
-          </Route>
-        </Routes>
-      </Router>
+          <Routes>
+            <Route path="/auth/login" element={<Login />} />
+            <Route path="/auth/signup" element={<Signup />} />
+
+            <Route element={<Protected />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/control-center" element={<ControlCenter />} />
+              <Route path="/customers" element={<AllCustomers />} />
+              <Route path="/customer/:id" element={<CustomerInfo />} />
+              <Route path="/add-customer" element={<AddCustomer />} />
+              <Route path="*" element={<Missing />} />
+            </Route>
+          </Routes>
+          <Footer />
+        </Router>
+      </AppContextProvider>
     </div>
   );
 };
