@@ -18,12 +18,6 @@ const UserSchema = new mongoose.Schema(
       require: false,
     },
 
-    investment: {
-      type: Number,
-      require: false,
-      default: 0,
-    },
-
     password: {
       type: String,
       require: true,

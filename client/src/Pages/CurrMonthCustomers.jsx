@@ -1,14 +1,16 @@
 import React, { useContext, useState } from "react";
-import CustCard from "../Components/CustCard";
 import { AppContext } from "../Utils/AppContext";
+import CustCard from "../Components/CustCard";
 
-const AllCustomers = () => {
+const CurrMonthCustomers = () => {
   const { customerData } = useContext(AppContext);
   const [searchCust, setSearchCust] = useState("");
+  const month = new Date().toDateString().slice(4, 7);
+
   return (
     <div className="flex items-center justify-center py-10 mt-14">
       <div className="w-3/4">
-        <h2 className="mb-4">All Customer Information</h2>
+        <h2 className="mb-4">{month} Month Customer Information</h2>
         <div className="">
           <input
             type="text"
@@ -17,7 +19,7 @@ const AllCustomers = () => {
             onChange={(e) => setSearchCust(e.target.value)}
           />
         </div>
-        {customerData?.allCustomersList
+        {customerData?.currentMonthCustomers
           ?.filter((cust) => {
             return (
               cust?.custName?.toLowerCase().includes(searchCust) ||
@@ -46,4 +48,4 @@ const AllCustomers = () => {
   );
 };
 
-export default AllCustomers;
+export default CurrMonthCustomers;

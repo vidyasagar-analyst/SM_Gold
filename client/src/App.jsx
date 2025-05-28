@@ -14,6 +14,11 @@ import { Toaster } from "sonner";
 import Missing from "./Pages/Missing";
 import Footer from "./Components/Footer";
 import ControlCenter from "./Pages/ControlCenter";
+import CurrMonthCustomers from "./Pages/CurrMonthCustomers";
+import InvestmentInfo from "./Pages/InvestmentInfo";
+import LoanAmountInfo from "./Pages/LoanAmountInfo";
+import Notifications from "./Pages/Notifications";
+import InvestmentHistory from "./Pages/InvestmentHistory";
 
 const App = () => {
   return (
@@ -29,10 +34,23 @@ const App = () => {
 
             <Route element={<Protected />}>
               <Route path="/" element={<Home />} />
+              {/* Admin Access Pages */}
               <Route path="/control-center" element={<ControlCenter />} />
+              <Route path="/investment-info" element={<InvestmentInfo />} />
+              <Route
+                path="/investment-history/:id"
+                element={<InvestmentHistory />}
+              />
+              <Route path="/loan-amount-info" element={<LoanAmountInfo />} />
+              {/* General Pages */}
               <Route path="/customers" element={<AllCustomers />} />
+              <Route
+                path="/curr-month-customers"
+                element={<CurrMonthCustomers />}
+              />
               <Route path="/customer/:id" element={<CustomerInfo />} />
               <Route path="/add-customer" element={<AddCustomer />} />
+              <Route path="/notifications" element={<Notifications />} />
               <Route path="*" element={<Missing />} />
             </Route>
           </Routes>

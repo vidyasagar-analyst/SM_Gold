@@ -11,8 +11,6 @@ const AddCustomer = () => {
     setFormDetails({ ...formDetails, [e.target.name]: e.target.value });
   };
 
-  console.log(formDetails);
-
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -28,7 +26,6 @@ const AddCustomer = () => {
       navigate("/customers");
     } catch (error) {
       toast.error(error?.response?.data?.message);
-      console.log(error.message);
     }
   };
 
@@ -50,6 +47,7 @@ const AddCustomer = () => {
                     id={form.id}
                     className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-sm"
                     name={form.name}
+                    maxLength={form.maxLength}
                     onChange={handleOnChange}
                     // required
                   />

@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, Navigate, NavLink } from "react-router-dom";
 import { AppContext } from "../Utils/AppContext";
+import { MdNotificationsActive } from "react-icons/md";
 
 const Navbar = () => {
   const { removeCookie, isAuth, setIsAuth, currUser } = useContext(AppContext);
@@ -20,7 +21,7 @@ const Navbar = () => {
             <Link to="/" className="text-xl font-bold">
               SRI MAHALAKSHMI GOLD LOAN
             </Link>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
               {currUser?.userRole == "SuperAdmin" && (
                 <NavLink
                   to="/control-center"
@@ -29,6 +30,17 @@ const Navbar = () => {
                   Control Center
                 </NavLink>
               )}
+              <div className="relative flex">
+                <NavLink
+                  to="/notifications"
+                  className="p-1.5 bg-blue-500 hover:bg-blue-600 rounded-full text-white font-bold text-[12px] cursor-pointer uppercase"
+                >
+                  <MdNotificationsActive size={21} />
+                </NavLink>
+                <h4 className="h-4 w-4 flex items-center justify-center !text-white !text-sm rounded-full bg-red-500 absolute -top-1 left-5">
+                  3
+                </h4>
+              </div>
               <NavLink
                 to="/customers"
                 className="px-8 py-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-bold text-[12px] cursor-pointer uppercase"

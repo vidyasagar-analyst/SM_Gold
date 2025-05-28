@@ -1,11 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const InfoCard = ({ heading, subTitle }) => {
+const InfoCard = ({ heading, subTitle, redirectPath = null }) => {
   return (
-    <div className="p-5 w-[325px] rounded-lg border border-gray-400/25 shadow bg-gray-300/25">
+    <Link
+      to={redirectPath}
+      className="p-5 w-[325px] rounded-lg border border-gray-400/25 shadow bg-gray-300/25"
+    >
       <h1 className="text-5xl font-bold tracking-wider">{heading}</h1>
       <p className="!text-[12px] mt-2 font-semibold">{subTitle}</p>
-    </div>
+    </Link>
   );
 };
 

@@ -3,10 +3,15 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { createContext } from "react";
 import { useCookies } from "react-cookie";
+import { toast } from "sonner";
 
 export const AppContext = createContext(null);
 
 const AppContextProvider = ({ children }) => {
+  const capitalize = (str) => {
+    return str?.charAt(0)?.toUpperCase() + str?.slice(1);
+  };
+
   const [cookies, setCookies, removeCookie] = useCookies(["accessToken"]);
   const [isAuth, setIsAuth] = useState(cookies.accessToken != null);
 
@@ -43,15 +48,42 @@ const AppContextProvider = ({ children }) => {
     setUserData(result?.data);
   };
 
+  // Investment Data
+  const [investmentData, setInvestmentData] = useState([]);
+  const fetchInvestmentInfo = async () => {
+    try {
+      const result = await axios.get(
+        "http://localhost:8000/api/v1/investment/investment-info"
+      );
+      setInvestmentData(result?.data);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
+  // Delete a Customer
+  const deleteCustomer = async (id) => {
+    try {
+      const result = await axios.delete(
+        `http://localhost:8000/api/v1/customers/delete-customer/${id}`
+      );
+      toast.success(result?.data?.message);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
   useEffect(() => {
     if (isAuth) {
       FetchCurrUser();
     }
     fetchCustomerData();
     fetchUserData();
-  }, [isAuth]);
+    fetchInvestmentInfo();
+  }, [isAuth, customerData]);
 
   const contextValues = {
+    capitalize,
     removeCookie,
     setCookies,
     isAuth,
@@ -60,6 +92,8 @@ const AppContextProvider = ({ children }) => {
     FetchCurrUser,
     customerData,
     userData,
+    investmentData,
+    deleteCustomer,
   };
 
   return (

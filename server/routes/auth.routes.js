@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 import { UserModel } from "../models/auth.model.js";
 import { CustomerModel } from "../models/customer.model.js";
+import { InvestmentModel } from "../models/investment.model.js";
 
 const router = express.Router();
 
@@ -95,6 +96,7 @@ router.get("/user-data", async (req, res) => {
   try {
     const users = await UserModel.find({}).select("-password");
     const customers = await CustomerModel.find({});
+    const investors = await InvestmentModel.find({});
 
     if (!users) {
       return res
@@ -104,8 +106,8 @@ router.get("/user-data", async (req, res) => {
 
     const superAdmin = users.find((user) => user?.role == "SuperAdmin");
 
-    const totalInvestment = users.reduce((acc, user) => {
-      return acc + user?.investment;
+    const totalInvestment = investors.reduce((acc, investor) => {
+      return acc + investor?.totalInvestment;
     }, 0);
 
     const totalLoanAmount = customers.reduce((acc, cust) => {
@@ -124,10 +126,10 @@ router.get("/user-data", async (req, res) => {
       users,
     });
   } catch (error) {
-    console.log(`Login Failed: ${error.message}`);
+    console.log(`Users Data Fetching Failed: ${error.message}`);
     res.status(500).json({
       success: false,
-      message: `Login Failed: ${error.message}`,
+      message: `Users Data Fetching Failed: ${error.message}`,
     });
   }
 });
@@ -159,7 +161,30 @@ router.get("/user/:userID", verifyToken, async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: false,
-      message: `User data fetch failed! ${error.message}`,
+      message: `Current User data fetch failed! ${error.message}`,
+    });
+  }
+});
+
+router.delete("/delete-user/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await UserModel.findByIdAndDelete(id);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Invalid User ID" });
+    }
+    res.status(200).json({
+      success: true,
+      message: `${user?.username?.toUpperCase()} Details Deleted!`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: `Failed to Delete an User! ${error.message}`,
     });
   }
 });

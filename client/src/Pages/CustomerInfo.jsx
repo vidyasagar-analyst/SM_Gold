@@ -5,7 +5,7 @@ import { AppContext } from "../Utils/AppContext";
 
 const CustomerInfo = () => {
   const { id } = useParams();
-  const { customerData } = useContext(AppContext);
+  const { customerData, capitalize } = useContext(AppContext);
 
   const customer = customerData?.allCustomersList?.find(
     (cust) => cust?.custID == id
@@ -14,7 +14,7 @@ const CustomerInfo = () => {
   return (
     <div className="py-20 flex items-center justify-center mt-20">
       <div className="w-3/4 px-20 py-10">
-        <ReceiptView customer={customer} />
+        <ReceiptView customer={customer} capitalize={capitalize} />
       </div>
     </div>
   );

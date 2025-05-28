@@ -1,47 +1,44 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../Utils/AppContext";
 import InfoCard from "../Components/InfoCard";
 import { MdOutlineEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "sonner";
 
 const ControlCenter = () => {
-  const { currUser, userData } = useContext(AppContext);
+  const { currUser, userData, capitalize } = useContext(AppContext);
+
+  const handleDelete = async (id) => {
+    try {
+      const result = await axios.delete(
+        `http://localhost:8000/api/v1/auth/delete-user/${id}`
+      );
+      toast.success(result?.data?.message);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
 
   return (
     <div className="h-fixed pt-24 flex justify-center">
       <div className="w-3/4 ">
-        <h2>Welcome Mr. {currUser?.currentUser?.toUpperCase()}</h2>
+        <h2>Welcome Mr. {capitalize(currUser?.currentUser)}</h2>
         <div className="flex items-center justify-between my-5">
           <InfoCard
             heading={`₹.${userData?.totalInvestment}`}
             subTitle="Total Investment"
+            redirectPath="/investment-info"
           />
           <InfoCard
             heading={`₹.${userData?.totalLoanAmount}`}
             subTitle="Total Loan Amount"
+            redirectPath="/loan-amount-info"
           />
           <InfoCard
             heading={`₹.${userData?.balanceInvestment}`}
             subTitle="Balance Investment"
           />
-        </div>
-
-        <div className="flex items-center justify-between border-b border-gray-400/25">
-          <div className="mb-4">
-            <h3>Add Investment</h3>
-            <p className="mt-1 !text-[12px]">Last Updated on </p>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <input
-              type="number"
-              placeholder="Investment Amount"
-              className="px-3 py-1.5 w-[200px] border border-gray-400/25 bg-gray-200/50 rounded-md text-sm"
-            />
-            <button className="px-8 py-2 bg-green-500 hover:bg-green-600 rounded-md text-white font-bold text-[12px] cursor-pointer uppercase">
-              Add Investment
-            </button>
-          </div>
         </div>
 
         <div className="my-5">
@@ -73,6 +70,7 @@ const ControlCenter = () => {
                         user?.role != "SuperAdmin" ? "hover:bg-red-300/25" : ""
                       } cursor-pointer flex items-center gap-2`}
                       disabled={user?.role == "SuperAdmin"}
+                      onClick={() => handleDelete(user?._id)}
                     >
                       <FaRegTrashAlt /> delete
                     </button>

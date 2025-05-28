@@ -37,6 +37,7 @@ export const formData = [
     id: "custName",
     name: "custName",
     inputType: "text",
+    maxLength: 25,
     placeholder: "Enter a Borrower Name",
   },
   {
@@ -44,6 +45,7 @@ export const formData = [
     id: "mobile",
     name: "mobile",
     inputType: "text",
+    maxLength: 10,
     placeholder: "+91 99999 99999",
   },
   {
@@ -51,6 +53,7 @@ export const formData = [
     id: "address",
     name: "address",
     inputType: "text",
+    maxLength: null,
     placeholder: "Street, City",
   },
   {
@@ -58,6 +61,7 @@ export const formData = [
     id: "pincode",
     name: "pincode",
     inputType: "text",
+    maxLength: 6,
     placeholder: "635 108",
   },
   {
@@ -65,6 +69,7 @@ export const formData = [
     id: "loanAmount",
     name: "loanAmount",
     inputType: "number",
+    maxLength: null,
     placeholder: "100000",
   },
   {
@@ -72,6 +77,7 @@ export const formData = [
     id: "loanNumber",
     name: "loanNumber",
     inputType: "text",
+    maxLength: null,
     placeholder: "0099018725436",
   },
   {
@@ -79,6 +85,7 @@ export const formData = [
     id: "pledgeDate",
     name: "pledgeDate",
     inputType: "date",
+    maxLength: null,
     placeholder: "Pledge date",
   },
 
@@ -87,6 +94,7 @@ export const formData = [
     id: "tenure",
     name: "tenure",
     inputType: "text",
+    maxLength: 5,
     placeholder: "Loan Tenure",
   },
   {
@@ -94,6 +102,7 @@ export const formData = [
     id: "nominee",
     name: "nominee",
     inputType: "text",
+    maxLength: 50,
     placeholder: "Nominee Name",
   },
 
@@ -102,6 +111,7 @@ export const formData = [
     id: "customerImg",
     name: "customerImg",
     inputType: "file",
+    maxLength: null,
     placeholder: "Choose a Customer Photo",
   },
 
@@ -110,6 +120,7 @@ export const formData = [
     id: "ornamentImg",
     name: "ornamentImg",
     inputType: "file",
+    maxLength: null,
     placeholder: "Choose a Ornament Photo",
   },
 ];
@@ -130,3 +141,13 @@ const nextDueYear = new Date(
   now.getMonth(),
   now.getDate()
 ).toDateString();
+
+const alert = new Date(
+  now.getFullYear(),
+  now.getMonth() + 1,
+  now.getDate() - 7
+).toDateString();
+
+// console.log(today.slice(4).replaceAll(" ", "-"));
+
+// console.log(alert.slice(4));

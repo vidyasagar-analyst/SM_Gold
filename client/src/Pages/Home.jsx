@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { FaPlus } from "react-icons/fa";
 import CustCard from "../Components/CustCard";
-import { custDetails } from "../Utils/data";
 import { Link } from "react-router-dom";
 import InfoCard from "../Components/InfoCard";
 import { AppContext } from "../Utils/AppContext";
@@ -18,10 +17,12 @@ const Home = () => {
           <InfoCard
             heading={customerData?.totalCustomerCount}
             subTitle="Total Customers"
+            redirectPath="/customers"
           />
           <InfoCard
             heading={customerData?.currentMonthCustomerCount}
             subTitle={`${currMonth} Month - ${currYear} customers`}
+            redirectPath="/curr-month-customers"
           />
           <InfoCard
             heading={`₹.${customerData?.currentMonthLoanAmount}`}
@@ -48,10 +49,14 @@ const Home = () => {
             ?.map((cust) => {
               return (
                 <CustCard
+                  id={cust._id}
                   custId={cust.custID}
                   custName={cust.custName}
                   address={cust.address}
                   mobileNumber={cust.mobile}
+                  loanAmount={cust.loanAmount}
+                  pledgeDate={cust.pledgeDate}
+                  interestDue={cust.interestDue}
                   key={cust.custID}
                 />
               );

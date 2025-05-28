@@ -1,5 +1,6 @@
 import express from "express";
 import { CustomerModel } from "../models/customer.model.js";
+import { UserModel } from "../models/auth.model.js";
 
 const router = express.Router();
 
@@ -10,6 +11,7 @@ router.post("/add-customer", async (req, res) => {
   try {
     const customer = await CustomerModel.findOne({ custName });
     const customers = await CustomerModel.find({});
+    const users = await UserModel.find({});
 
     if (customer) {
       return res
@@ -48,6 +50,23 @@ router.post("/add-customer", async (req, res) => {
       maturity: nextDueYear,
     });
 
+    const totalInvestment = users.reduce((acc, user) => {
+      return acc + user?.investment;
+    }, 0);
+
+    const totalLoanAmount = customers.reduce((acc, cust) => {
+      return acc + cust?.loanAmount;
+    }, 0);
+
+    const balanceInvestment = totalInvestment - totalLoanAmount;
+
+    if (newCustomer?.loanAmount > balanceInvestment) {
+      return res.status(400).json({
+        success: false,
+        message: `Insufficient Balance! ₹. ${balanceInvestment}`,
+      });
+    }
+
     await newCustomer.save();
 
     res
@@ -82,12 +101,17 @@ router.get("/all-customers", async (req, res) => {
       return acc + cust?.loanAmount;
     }, 0);
 
+    const totalLoanAmount = customers.reduce((acc, cust) => {
+      return acc + cust?.loanAmount;
+    }, 0);
+
     res.status(200).json({
       success: true,
       message: "Customers Data Fetched Successfully",
       totalCustomerCount: customers.length,
       currentMonthCustomerCount: currentMonthCustomers.length,
       currentMonthLoanAmount,
+      totalLoanAmount,
       currentMonthCustomers,
       allCustomersList: customers,
     });
@@ -95,6 +119,29 @@ router.get("/all-customers", async (req, res) => {
     res.status(500).json({
       success: false,
       message: `Customer Data Fetch Failed: ${error.message}`,
+    });
+  }
+});
+
+router.delete("/delete-customer/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const customer = await CustomerModel.findByIdAndDelete(id);
+
+    if (!customer) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Invalid Customer ID" });
+    }
+    res.status(200).json({
+      success: true,
+      message: `${customer?.custName?.toUpperCase()} Details Deleted!`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: `Failed to Delete a Customer! ${error.message}`,
     });
   }
 });

@@ -1,6 +1,6 @@
 import React from "react";
 
-const ReceiptView = ({ customer }) => {
+const ReceiptView = ({ customer, capitalize }) => {
   return (
     <>
       {/* Header */}
@@ -34,20 +34,20 @@ const ReceiptView = ({ customer }) => {
             <p>Maturity</p>
           </div>
           <div className="col flex flex-col gap-2">
-            <p className="font-bold">{customer?.custName}</p>
-            <p className="font-bold">{customer?.custID}</p>
-            <p className="font-bold">{customer?.address}</p>
-            <p className="font-bold">{customer?.pincode}</p>
-            <p className="font-bold">{customer?.mobile}</p>
-            <p className="font-bold">₹. {customer?.loanAmount}</p>
-            <p className="font-bold">00990088779900</p>
-            <p className="font-bold">{customer?.pledgeDate}</p>
-            <p className="font-bold">{customer?.schema}</p>
-            <p className="font-bold">75</p>
-            <p className="font-bold">365 Days</p>
-            <p className="font-bold">{customer?.nominee}</p>
-            <p className="font-bold">{customer?.interestDue}</p>
-            <p className="font-bold">{customer?.maturity}</p>
+            <p className="font-bold">: {capitalize(customer?.custName)}</p>
+            <p className="font-bold">: {customer?.custID}</p>
+            <p className="font-bold">: {capitalize(customer?.address)}</p>
+            <p className="font-bold">: {customer?.pincode}</p>
+            <p className="font-bold">: {customer?.mobile}</p>
+            <p className="font-bold">: ₹. {customer?.loanAmount}</p>
+            <p className="font-bold">: 00990088779900</p>
+            <p className="font-bold">: {customer?.pledgeDate}</p>
+            <p className="font-bold">: {customer?.schema}</p>
+            <p className="font-bold">: 75</p>
+            <p className="font-bold">: 365 Days</p>
+            <p className="font-bold">: {capitalize(customer?.nominee)}</p>
+            <p className="font-bold">: {customer?.interestDue}</p>
+            <p className="font-bold">: {customer?.maturity}</p>
           </div>
         </div>
 
@@ -113,22 +113,24 @@ const ReceiptView = ({ customer }) => {
         <p className="w-40 border-b-2 border-dotted font-bold mb-4">Rs.</p>
         <div className="leading-6 tracking-wide mb-10">
           <p className="inline">ON DEMAND, I </p>
-          <p className="w-80 border-b-2 border-dotted inline-block px-5">
-            {customer?.custName}
+          <p className="w-80 border-b-2 border-dotted inline-block px-5 font-bold">
+            {capitalize(customer?.custName)}
           </p>
           <p className="inline">
             promise to pay to Sri Mahalakshmi Gold Loan or order the sum of Rs
           </p>
-          <p className="w-36 border-b-2 border-dotted inline-block px-5">
-            00.00
+          <p className="w-36 border-b-2 border-dotted inline-block px-5 font-bold">
+            {customer?.loanAmount}
           </p>
           <p className="inline">
             {" "}
             /- together with interest from the date hereof at
           </p>
-          <p className="w-28 border-b-2 border-dotted inline-block px-5">30%</p>
+          <p className="w-28 border-b-2 border-dotted inline-block px-5 font-bold">
+            30 %
+          </p>
           <p className="inline">
-            % per annum or such other rate the Lender fix from time to time,
+            per annum or such other rate the Lender fix from time to time,
             compounding and payable with daily/monthly/quaterly rests for value
             received.
           </p>
