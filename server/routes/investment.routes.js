@@ -17,11 +17,11 @@ router.post("/investment-update", async (req, res) => {
       }
       investor = new InvestmentModel({
         investorName,
-        totalInvestment: investment,
+        investment,
         investmentHistory: [{ amount: investment }],
       });
     } else {
-      investor.totalInvestment += investment;
+      investor.investment += investment;
       investor.investmentHistory.push({ amount: investment });
     }
 
@@ -50,7 +50,7 @@ router.get("/investment-info", async (req, res) => {
     }
 
     const totalInvestment = investors?.reduce((acc, investor) => {
-      return acc + investor?.totalInvestment;
+      return acc + investor?.investment;
     }, 0);
 
     res.status(200).json({
@@ -63,6 +63,28 @@ router.get("/investment-info", async (req, res) => {
     res.status(500).json({
       success: false,
       message: `Investment Info Fetching Error: ${error.message}`,
+    });
+  }
+});
+
+router.delete("/delete-investor/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const investor = await InvestmentModel.findByIdAndDelete(id);
+    if (!investor) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Invalid Investor ID" });
+    }
+    res.status(200).json({
+      success: true,
+      message: `${investor?.investorName?.toUpperCase()}'s Info was Deleted!`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `Investor Ddeletion Error: ${error.message}`,
     });
   }
 });

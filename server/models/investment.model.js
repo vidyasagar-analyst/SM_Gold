@@ -13,7 +13,7 @@ const InvestorSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  totalInvestment: {
+  investment: {
     type: Number,
     default: 0,
   },

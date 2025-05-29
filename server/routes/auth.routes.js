@@ -107,7 +107,7 @@ router.get("/user-data", async (req, res) => {
     const superAdmin = users.find((user) => user?.role == "SuperAdmin");
 
     const totalInvestment = investors.reduce((acc, investor) => {
-      return acc + investor?.totalInvestment;
+      return acc + investor?.investment;
     }, 0);
 
     const totalLoanAmount = customers.reduce((acc, cust) => {

@@ -42,7 +42,10 @@ const Signup = () => {
         toast.success(result?.data?.message);
         navigate("/auth/login");
       } catch (error) {
-        toast.error(error?.response?.data?.message);
+        toast.error(
+          error?.response?.data?.message ||
+            "Something Went Wrong! Try Again Later!"
+        );
       }
     }
   };
