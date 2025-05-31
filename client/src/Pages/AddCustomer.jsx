@@ -33,7 +33,7 @@ const AddCustomer = () => {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="h-fixed pt-24 flex items-center justify-center">
       <div className="w-3/4 p-7 bg-white border border-gray-400/25 rounded-lg">
         <h2 className="mb-5">Add New Customer</h2>
         <form onSubmit={handleSubmit}>
@@ -52,12 +52,28 @@ const AddCustomer = () => {
                     name={form.name}
                     maxLength={form.maxLength}
                     onChange={handleOnChange}
-                    // required
+                    required={form.id == "customerImg" ? false : true}
                   />
                 </div>
               );
             })}
 
+            <div className="flex flex-col gap-2">
+              <label htmlFor="schema" className="text-sm font-semibold">
+                Interest Rate
+              </label>
+              <select
+                id="interestRate"
+                name="interestRate"
+                className="p-3 pr-4 appearance-none border border-gray-400/25 bg-gray-200/50 rounded-md text-sm"
+                onChange={handleOnChange}
+              >
+                <option value={1.26}>1.26%</option>
+                <option value={1.56}>1.56%</option>
+                <option value={1.76}>1.76%</option>
+                <option value={1.96}>1.96%</option>
+              </select>
+            </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="schema" className="text-sm font-semibold">
                 Schema
@@ -68,8 +84,11 @@ const AddCustomer = () => {
                 className="p-3 pr-4 appearance-none border border-gray-400/25 bg-gray-200/50 rounded-md text-sm"
                 onChange={handleOnChange}
               >
-                <option value="SM_GOLD">SM_GOLD</option>
-                <option value="SM_GOLD">SM_BIKE</option>
+                <option value={1}>SM_GOLD_1</option>
+                <option value={3}>SM_GOLD_3</option>
+                <option value={6}>SM_GOLD_6</option>
+                <option value={9}>SM_GOLD_9</option>
+                <option value={12}>SM_GOLD_12</option>
               </select>
             </div>
           </div>

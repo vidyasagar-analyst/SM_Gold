@@ -19,6 +19,7 @@ import InvestmentInfo from "./Pages/InvestmentInfo";
 import LoanAmountInfo from "./Pages/LoanAmountInfo";
 import Notifications from "./Pages/Notifications";
 import InvestmentHistory from "./Pages/InvestmentHistory";
+import BalanceInvestment from "./Pages/BalanceInvestment";
 
 const App = () => {
   return (
@@ -42,6 +43,10 @@ const App = () => {
                 element={<InvestmentHistory />}
               />
               <Route path="/loan-amount-info" element={<LoanAmountInfo />} />
+              <Route
+                path="/balance-investment"
+                element={<BalanceInvestment />}
+              />
               {/* General Pages */}
               <Route path="/customers" element={<AllCustomers />} />
               <Route

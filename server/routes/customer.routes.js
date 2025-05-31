@@ -1,17 +1,25 @@
 import express from "express";
 import { CustomerModel } from "../models/customer.model.js";
-import { UserModel } from "../models/auth.model.js";
+import { InvestmentModel } from "../models/investment.model.js";
 
 const router = express.Router();
 
 router.post("/add-customer", async (req, res) => {
-  const { custName, address, pincode, mobile, loanAmount, schema, nominee } =
-    req.body;
+  const {
+    custName,
+    address,
+    pincode,
+    mobile,
+    actualLoanAmount,
+    interestRate,
+    schema,
+    nominee,
+  } = req.body;
 
   try {
     const customer = await CustomerModel.findOne({ custName });
     const customers = await CustomerModel.find({});
-    const users = await UserModel.find({});
+    const investors = await InvestmentModel.find({});
 
     if (customer) {
       return res
@@ -19,7 +27,7 @@ router.post("/add-customer", async (req, res) => {
         .json({ success: false, message: "Already Customer Exists!" });
     }
 
-    const customerID = 990001 + customers?.length;
+    const customerID = 1001 + customers?.length;
     const now = new Date();
     const today = now.toDateString();
 
@@ -27,7 +35,7 @@ router.post("/add-customer", async (req, res) => {
 
     const nextDueMonth = new Date(
       now.getFullYear(),
-      now.getMonth() + 1,
+      now.getMonth() + schema,
       now.getDate()
     ).toDateString();
     const nextDueYear = new Date(
@@ -36,13 +44,21 @@ router.post("/add-customer", async (req, res) => {
       now.getDate()
     ).toDateString();
 
+    const processingFee = (actualLoanAmount * 0.4) / 100;
+    const finalLoanAmount = actualLoanAmount - processingFee;
+
     const newCustomer = new CustomerModel({
       custID: customerID,
       custName,
       address,
       pincode,
       mobile,
-      loanAmount,
+      actualLoanAmount,
+      finalLoanAmount,
+      interestRate,
+      processingFee,
+      interestAmount: 0,
+      totalProfit: processingFee,
       pledgeDate: pledge,
       schema,
       nominee,
@@ -50,17 +66,17 @@ router.post("/add-customer", async (req, res) => {
       maturity: nextDueYear,
     });
 
-    const totalInvestment = users.reduce((acc, user) => {
-      return acc + user?.investment;
+    const totalInvestment = investors?.reduce((acc, investor) => {
+      return acc + investor?.investment;
     }, 0);
 
     const totalLoanAmount = customers.reduce((acc, cust) => {
-      return acc + cust?.loanAmount;
+      return acc + cust?.actualLoanAmount;
     }, 0);
 
     const balanceInvestment = totalInvestment - totalLoanAmount;
 
-    if (newCustomer?.loanAmount > balanceInvestment) {
+    if (newCustomer?.actualLoanAmount > balanceInvestment) {
       return res.status(400).json({
         success: false,
         message: `Insufficient Balance! ₹. ${balanceInvestment}`,
@@ -69,9 +85,11 @@ router.post("/add-customer", async (req, res) => {
 
     await newCustomer.save();
 
-    res
-      .status(201)
-      .json({ success: true, message: "Customer Added Successfully" });
+    res.status(201).json({
+      success: true,
+      message: "Customer Added Successfully",
+      balanceInvestment,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -94,15 +112,21 @@ router.get("/all-customers", async (req, res) => {
     const currMonth = now.toDateString().slice(4, 7);
 
     const currentMonthCustomers = customers.filter((cust) => {
-      return cust?.pledgeDate?.slice(0, 3) == currMonth;
+      return (
+        cust?.pledgeDate?.slice(0, 3) == currMonth && cust?.status == "Pending"
+      );
     });
 
     const currentMonthLoanAmount = currentMonthCustomers.reduce((acc, cust) => {
-      return acc + cust?.loanAmount;
+      return acc + cust?.actualLoanAmount;
     }, 0);
 
     const totalLoanAmount = customers.reduce((acc, cust) => {
-      return acc + cust?.loanAmount;
+      return acc + cust?.actualLoanAmount;
+    }, 0);
+
+    const totalProfitAmount = customers.reduce((acc, cust) => {
+      return acc + cust?.totalProfit;
     }, 0);
 
     res.status(200).json({
@@ -112,6 +136,7 @@ router.get("/all-customers", async (req, res) => {
       currentMonthCustomerCount: currentMonthCustomers.length,
       currentMonthLoanAmount,
       totalLoanAmount,
+      totalProfitAmount,
       currentMonthCustomers,
       allCustomersList: customers,
     });
@@ -119,6 +144,54 @@ router.get("/all-customers", async (req, res) => {
     res.status(500).json({
       success: false,
       message: `Customer Data Fetch Failed: ${error.message}`,
+    });
+  }
+});
+
+router.put("/complete-customer/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const customer = await CustomerModel.findById(id);
+
+    if (!customer) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No Customer Found!" });
+    }
+
+    let start = new Date(customer?.pledgeDate);
+    let end = new Date();
+    let timeDifference = end - start;
+    let daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+    const interestAmount =
+      (customer?.actualLoanAmount * customer?.interestRate) / 100;
+
+    const interestPerDay = interestAmount / 30;
+
+    const totalInterest =
+      daysDifference < 15
+        ? interestPerDay * 15
+        : interestPerDay * daysDifference;
+
+    const totalProfit = customer?.processingFee + totalInterest;
+
+    customer.status = "Completed";
+    customer.interestAmount = totalInterest;
+    customer.totalProfit = Math.floor(totalProfit);
+    customer.completedAt = new Date();
+
+    await customer.save();
+
+    res.status(200).json({
+      success: true,
+      message: `${customer?.custName?.toUpperCase()}'s Status updated!`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `Complete Customer Error: ${error.message}`,
     });
   }
 });

@@ -1,6 +1,6 @@
 const LoanAmountTable = ({ customerData }) => {
   return (
-    <div className="relative overflow-x-auto bg-white border border-gray-400/25 rounded-md shadow ">
+    <div className="relative overflow-y-auto max-h-[525px] shadow-md border border-gray-400/25 sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-300/25 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -26,19 +26,26 @@ const LoanAmountTable = ({ customerData }) => {
             ?.map((cust) => {
               return (
                 <tr
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  className={`${
+                    cust?.status == "Completed" &&
+                    "bg-green-200/25 hover:bg-green-200/35"
+                  } border-b border-gray-200 hover:bg-gray-50`}
                   key={cust?.custID}
                 >
                   <td className="px-6 py-4">{cust?.custID}</td>
                   <th
                     scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    className={`px-6 py-4 font-medium ${
+                      cust?.status == "Completed"
+                        ? "text-green-500"
+                        : "text-gray-900"
+                    } whitespace-nowrap`}
                   >
                     {cust?.custName?.toUpperCase()}
                   </th>
                   <td className="px-6 py-4">{cust?.mobile}</td>
                   <td className="px-6 py-4 font-semibold">
-                    ₹.{cust?.loanAmount}
+                    ₹.{cust?.actualLoanAmount}
                   </td>
                   <td className="px-6 py-4">{cust?.pledgeDate}</td>
                 </tr>

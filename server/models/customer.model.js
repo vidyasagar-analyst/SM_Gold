@@ -29,9 +29,18 @@ const CustomerSchema = new mongoose.Schema(
       require: true,
     },
 
-    loanAmount: {
+    aadhar: {
+      type: String,
+    },
+
+    actualLoanAmount: {
       type: Number,
       require: true,
+    },
+
+    finalLoanAmount: {
+      // Detect processing fee actualLoanAmount - processingFee
+      type: Number,
     },
 
     pledgeDate: {
@@ -39,9 +48,27 @@ const CustomerSchema = new mongoose.Schema(
       // require: true,
     },
 
-    schema: {
+    interestRate: {
+      type: Number,
+      require: true,
+    },
+
+    processingFee: Number,
+
+    interestAmount: Number,
+
+    totalProfit: Number,
+
+    status: {
       type: String,
-      default: "SM_GOLD",
+      default: "Pending",
+    },
+
+    completedAt: Date,
+
+    schema: {
+      type: Number,
+      default: 1,
     },
 
     nominee: {

@@ -5,9 +5,9 @@ const InfoCard = ({ heading, subTitle, redirectPath = null }) => {
   return (
     <Link
       to={redirectPath}
-      className="p-5 w-[325px] rounded-lg border border-gray-400/25 shadow bg-gray-300/25"
+      className="p-5 w-[325px] rounded-lg border border-gray-400/25 shadow-md bg-gray-300/25"
     >
-      <h1 className="text-5xl font-bold tracking-wider">{heading}</h1>
+      <h1 className="text-3xl font-bold tracking-wider">{heading}</h1>
       <p className="!text-[12px] mt-2 font-semibold">{subTitle}</p>
     </Link>
   );

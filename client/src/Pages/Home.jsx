@@ -10,8 +10,13 @@ const Home = () => {
   const currYear = new Date().getFullYear();
 
   const { customerData } = useContext(AppContext);
+
+  const pendingCustomers = customerData?.allCustomersList?.filter(
+    (cust) => cust?.status == "Pending"
+  );
+
   return (
-    <div className="flex justify-center py-10 mt-[80px]">
+    <div className="flex justify-center h-fixed pt-28 pb-5">
       <div className="w-3/4">
         <div className="flex items-center justify-between mb-5">
           <InfoCard
@@ -31,8 +36,8 @@ const Home = () => {
         </div>
         <div className="flex items-center justify-between">
           <div className="">
-            <h3>Recent Customer Information</h3>
-            <p>View and Update your customer details</p>
+            <h3>Recent Customers</h3>
+            <p>View and Update the Recent 5 customers info</p>
           </div>
           <Link
             to="/add-customer"
@@ -42,26 +47,39 @@ const Home = () => {
           </Link>
         </div>
 
-        <div className="mt-8">
-          {customerData?.allCustomersList
-            ?.slice(-5)
-            ?.reverse()
-            ?.map((cust) => {
-              return (
-                <CustCard
-                  id={cust._id}
-                  custId={cust.custID}
-                  custName={cust.custName}
-                  address={cust.address}
-                  mobileNumber={cust.mobile}
-                  loanAmount={cust.loanAmount}
-                  pledgeDate={cust.pledgeDate}
-                  interestDue={cust.interestDue}
-                  key={cust.custID}
-                />
-              );
-            })}
-        </div>
+        {pendingCustomers?.length < 1 ? (
+          <div className="h-[350px] flex flex-col items-center justify-center mt-4">
+            <h2 className="!text-red-500 animate-bounce">
+              No Customers Found!
+            </h2>
+            <p className="!text-[12px] mt-4 tracking-wider">
+              Click Add New Cust to Add a New Customer...
+            </p>
+          </div>
+        ) : (
+          <div className="mt-8">
+            {customerData?.allCustomersList
+              ?.slice(-5)
+              ?.reverse()
+              ?.filter((cust) => cust?.status == "Pending")
+              ?.map((cust) => {
+                return (
+                  <CustCard
+                    cust={cust}
+                    id={cust._id}
+                    custId={cust.custID}
+                    custName={cust.custName}
+                    address={cust.address}
+                    mobileNumber={cust.mobile}
+                    loanAmount={cust.actualLoanAmount}
+                    pledgeDate={cust.pledgeDate}
+                    interestDue={cust.interestDue}
+                    key={cust.custID}
+                  />
+                );
+              })}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -106,21 +106,39 @@ router.get("/user-data", async (req, res) => {
 
     const superAdmin = users.find((user) => user?.role == "SuperAdmin");
 
+    const completedCustomers = customers.filter(
+      (cust) => cust?.status == "Completed"
+    );
+
+    const pendingCustomers = customers.filter(
+      (cust) => cust?.status == "Pending"
+    );
+
+    const pendingLoanAmount = pendingCustomers?.reduce((acc, cust) => {
+      return acc + cust?.actualLoanAmount;
+    }, 0);
+
+    const reinvestment = completedCustomers.reduce((acc, cust) => {
+      return acc + (cust?.actualLoanAmount + cust?.totalProfit);
+    }, 0);
+
     const totalInvestment = investors.reduce((acc, investor) => {
       return acc + investor?.investment;
     }, 0);
 
     const totalLoanAmount = customers.reduce((acc, cust) => {
-      return acc + cust?.loanAmount;
+      return acc + cust?.actualLoanAmount;
     }, 0);
 
-    const balanceInvestment = totalInvestment - totalLoanAmount;
+    const balanceInvestment =
+      totalInvestment - pendingLoanAmount + reinvestment;
 
     res.status(200).json({
       success: true,
       message: "Users Data Fetched",
       totalInvestment,
       totalLoanAmount,
+      reinvestment,
       balanceInvestment,
       superAdmin,
       users,

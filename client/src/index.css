@@ -8,7 +8,7 @@ body {
 }
 
 .h-fixed {
-  height: calc(100vh - 35px);
+  min-height: calc(100vh - 35px);
 }
 
 h2 {

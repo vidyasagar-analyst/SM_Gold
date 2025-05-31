@@ -49,6 +49,14 @@ export const formData = [
     placeholder: "+91 99999 99999",
   },
   {
+    label: "Aadhar Number",
+    id: "aadhar",
+    name: "aadhar",
+    inputType: "text",
+    maxLength: 12,
+    placeholder: "Enter Valid Aadhar number",
+  },
+  {
     label: "Address",
     id: "address",
     name: "address",
@@ -66,37 +74,21 @@ export const formData = [
   },
   {
     label: "Loan Amount",
-    id: "loanAmount",
-    name: "loanAmount",
+    id: "actualLoanAmount",
+    name: "actualLoanAmount",
     inputType: "number",
     maxLength: null,
     placeholder: "100000",
   },
-  {
-    label: "Loan Number",
-    id: "loanNumber",
-    name: "loanNumber",
-    inputType: "text",
-    maxLength: null,
-    placeholder: "0099018725436",
-  },
-  {
-    label: "Pledge Date",
-    id: "pledgeDate",
-    name: "pledgeDate",
-    inputType: "date",
-    maxLength: null,
-    placeholder: "Pledge date",
-  },
+  // {
+  //   label: "Interest Rate",
+  //   id: "interestRate",
+  //   name: "interestRate",
+  //   inputType: "number",
+  //   maxLength: null,
+  //   placeholder: "Enter Rate of Interest",
+  // },
 
-  {
-    label: "Loan Tenure",
-    id: "tenure",
-    name: "tenure",
-    inputType: "text",
-    maxLength: 5,
-    placeholder: "Loan Tenure",
-  },
   {
     label: "Nominee Name",
     id: "nominee",
@@ -115,14 +107,14 @@ export const formData = [
     placeholder: "Choose a Customer Photo",
   },
 
-  {
-    label: "Ornament Image",
-    id: "ornamentImg",
-    name: "ornamentImg",
-    inputType: "file",
-    maxLength: null,
-    placeholder: "Choose a Ornament Photo",
-  },
+  // {
+  //   label: "Ornament Image",
+  //   id: "ornamentImg",
+  //   name: "ornamentImg",
+  //   inputType: "file",
+  //   maxLength: null,
+  //   placeholder: "Choose a Ornament Photo",
+  // },
 ];
 
 const now = new Date();

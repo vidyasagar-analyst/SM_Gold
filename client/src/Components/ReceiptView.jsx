@@ -39,10 +39,10 @@ const ReceiptView = ({ customer, capitalize }) => {
             <p className="font-bold">: {capitalize(customer?.address)}</p>
             <p className="font-bold">: {customer?.pincode}</p>
             <p className="font-bold">: {customer?.mobile}</p>
-            <p className="font-bold">: ₹. {customer?.loanAmount}</p>
+            <p className="font-bold">: ₹. {customer?.finalLoanAmount}</p>
             <p className="font-bold">: 00990088779900</p>
             <p className="font-bold">: {customer?.pledgeDate}</p>
-            <p className="font-bold">: {customer?.schema}</p>
+            <p className="font-bold">: SM_GOLD_{customer?.schema}</p>
             <p className="font-bold">: 75</p>
             <p className="font-bold">: 365 Days</p>
             <p className="font-bold">: {capitalize(customer?.nominee)}</p>
@@ -110,7 +110,9 @@ const ReceiptView = ({ customer, capitalize }) => {
         <h3 className="underline underline-offset-4 mb-4">
           Demand Promissory Note:
         </h3>
-        <p className="w-40 border-b-2 border-dotted font-bold mb-4">Rs.</p>
+        <p className="w-40 border-b-2 border-dotted font-bold mb-4">
+          Rs. {customer?.finalLoanAmount}
+        </p>
         <div className="leading-6 tracking-wide mb-10">
           <p className="inline">ON DEMAND, I </p>
           <p className="w-80 border-b-2 border-dotted inline-block px-5 font-bold">
@@ -120,7 +122,7 @@ const ReceiptView = ({ customer, capitalize }) => {
             promise to pay to Sri Mahalakshmi Gold Loan or order the sum of Rs
           </p>
           <p className="w-36 border-b-2 border-dotted inline-block px-5 font-bold">
-            {customer?.loanAmount}
+            {customer?.finalLoanAmount}
           </p>
           <p className="inline">
             {" "}

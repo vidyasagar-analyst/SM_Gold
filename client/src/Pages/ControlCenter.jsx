@@ -41,6 +41,7 @@ const ControlCenter = () => {
           <InfoCard
             heading={`₹.${userData?.balanceInvestment}`}
             subTitle="Balance Investment"
+            redirectPath="/balance-investment"
           />
         </div>
 

@@ -1,11 +1,14 @@
 import React, { useContext } from "react";
-import { MdOutlineEdit } from "react-icons/md";
+import { IoMdCheckmark } from "react-icons/io";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AppContext } from "../Utils/AppContext";
+import axios from "axios";
+import { toast } from "sonner";
 
 const CustCard = ({
+  cust,
   id = null,
   custId,
   custName,
@@ -16,8 +19,26 @@ const CustCard = ({
   interestDue,
 }) => {
   const { capitalize, currUser, deleteCustomer } = useContext(AppContext);
+
+  const updateCustomer = async (id) => {
+    try {
+      const result = await axios.put(
+        `http://localhost:8000/api/v1/customers/complete-customer/${id}`
+      );
+      toast.success(result?.data?.message);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
   return (
-    <div className="p-4 border border-gray-400/25 hover:shadow rounded-lg my-3 bg-gray-200/35">
+    <div
+      className={`p-4 border ${
+        cust?.status == "Completed"
+          ? "border-green-500/25"
+          : "border-red-500/25"
+      } hover:shadow rounded-lg my-3 bg-gray-200/35`}
+    >
       <div className="flex flex-col">
         <div className="flex items-center justify-between">
           <Link to={`/customer/${custId}`} className="flex items-center gap-2">
@@ -32,9 +53,14 @@ const CustCard = ({
 
           {currUser?.userRole == "SuperAdmin" && (
             <div className="flex items-center gap-1">
-              <button className="px-4 py-2 rounded-md text-[12px] uppercase font-bold text-secondary hover:bg-gray-300/50 cursor-pointer flex items-center gap-2">
-                <MdOutlineEdit /> Edit
-              </button>
+              {cust?.status == "Pending" && (
+                <button
+                  className="px-4 py-2 rounded-md text-[12px] uppercase font-bold text-green-500 hover:bg-green-300/25 cursor-pointer flex items-center gap-2"
+                  onClick={() => updateCustomer(id)}
+                >
+                  <IoMdCheckmark /> finish
+                </button>
+              )}
               <button
                 className="px-4 py-2 rounded-md text-[12px] uppercase font-bold text-danger hover:bg-red-300/25 cursor-pointer flex items-center gap-2"
                 onClick={() => deleteCustomer(id)}
