@@ -53,3 +53,10 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+/* Active Navlink style */
+
+.active {
+  color: black;
+  border-bottom: 2px solid black;
+}

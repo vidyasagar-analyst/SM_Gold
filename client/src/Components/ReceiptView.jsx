@@ -23,11 +23,10 @@ const ReceiptView = ({ customer, capitalize }) => {
             <p>Address</p>
             <p>Pin Code</p>
             <p>Mobile</p>
+            <p>Aadhar Number</p>
             <p>Loan Amount</p>
-            <p>Loan</p>
             <p>Pledge Date</p>
             <p>Schema</p>
-            <p>LTV(%)</p>
             <p>Loan Tenure</p>
             <p>Nominee</p>
             <p>Interest Due</p>
@@ -35,15 +34,14 @@ const ReceiptView = ({ customer, capitalize }) => {
           </div>
           <div className="col flex flex-col gap-2">
             <p className="font-bold">: {capitalize(customer?.custName)}</p>
-            <p className="font-bold">: {customer?.custID}</p>
+            <p className="font-bold">: SMG{customer?.custID}</p>
             <p className="font-bold">: {capitalize(customer?.address)}</p>
             <p className="font-bold">: {customer?.pincode}</p>
             <p className="font-bold">: {customer?.mobile}</p>
+            <p className="font-bold">: {customer?.aadhar}</p>
             <p className="font-bold">: ₹. {customer?.finalLoanAmount}</p>
-            <p className="font-bold">: 00990088779900</p>
             <p className="font-bold">: {customer?.pledgeDate}</p>
             <p className="font-bold">: SM_GOLD_{customer?.schema}</p>
-            <p className="font-bold">: 75</p>
             <p className="font-bold">: 365 Days</p>
             <p className="font-bold">: {capitalize(customer?.nominee)}</p>
             <p className="font-bold">: {customer?.interestDue}</p>

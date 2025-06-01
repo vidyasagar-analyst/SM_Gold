@@ -140,6 +140,11 @@ const alert = new Date(
   now.getDate() - 7
 ).toDateString();
 
+const endDate = new Date("Mon Sep 01 2025");
+let beforeThree = new Date("Mon Sep 01 2025");
+beforeThree.setDate(endDate.getDate() - 3);
+console.log(endDate > beforeThree && beforeThree);
+console.log(5 > 3);
 // console.log(today.slice(4).replaceAll(" ", "-"));
 
 // console.log(alert.slice(4));

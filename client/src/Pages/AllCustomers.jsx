@@ -3,10 +3,18 @@ import CustCard from "../Components/CustCard";
 import { AppContext } from "../Utils/AppContext";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { FaExclamationTriangle } from "react-icons/fa";
+import { FaCircleCheck } from "react-icons/fa6";
+import { FaUsers } from "react-icons/fa6";
+import PendingCustomers from "../Components/PendingCustomers";
+import CompletedCustomers from "../Components/CompletedCustomers";
+import AllCustomersList from "../Components/AllCustomersList";
 
 const AllCustomers = () => {
   const { customerData } = useContext(AppContext);
   const [searchCust, setSearchCust] = useState("");
+
+  const [activeTab, setActiveTab] = useState("pending");
 
   const navigate = useNavigate();
   return (
@@ -14,12 +22,38 @@ const AllCustomers = () => {
       <div className="w-3/4">
         <div className="flex items-center justify-between mb-4">
           <h2>All Customers Information</h2>
-          <button
-            className="px-4 py-2 rounded-md text-[12px] uppercase font-bold text-secondary hover:bg-gray-300/50 cursor-pointer flex items-center gap-2"
-            onClick={() => navigate(-1)}
-          >
-            <IoMdArrowRoundBack /> back
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              className={`px-4 py-2 rounded-md text-[12px] uppercase font-bold text-red-500 ${
+                activeTab === "pending" && "bg-red-300/50"
+              } hover:bg-red-300/50 cursor-pointer flex items-center gap-2`}
+              onClick={() => setActiveTab("pending")}
+            >
+              <FaExclamationTriangle /> Pending Customers
+            </button>
+            <button
+              className={`px-4 py-2 rounded-md text-[12px] uppercase font-bold text-green-500 ${
+                activeTab === "completed" && "bg-green-300/50"
+              } hover:bg-green-300/50 cursor-pointer flex items-center gap-2`}
+              onClick={() => setActiveTab("completed")}
+            >
+              <FaCircleCheck /> Completed Customers
+            </button>
+            <button
+              className={`px-4 py-2 rounded-md text-[12px] uppercase font-bold text-blue-500 ${
+                activeTab === "allCustomers" && "bg-blue-300/50"
+              } hover:bg-blue-300/50 cursor-pointer flex items-center gap-2`}
+              onClick={() => setActiveTab("allCustomers")}
+            >
+              <FaUsers /> All Customers
+            </button>
+            <button
+              className="px-4 py-2 rounded-md text-[12px] uppercase font-bold text-secondary hover:bg-gray-300/50 cursor-pointer flex items-center gap-2"
+              onClick={() => navigate(-1)}
+            >
+              <IoMdArrowRoundBack /> back
+            </button>
+          </div>
         </div>
         <div className="">
           <input
@@ -41,33 +75,26 @@ const AllCustomers = () => {
             </p>
           </div>
         ) : (
-          <div>
-            {customerData?.allCustomersList
-              ?.filter((cust) => {
-                return (
-                  cust?.custName?.toLowerCase().includes(searchCust) ||
-                  String(cust?.custID).includes(searchCust) ||
-                  cust?.mobile.includes(searchCust)
-                );
-              })
-              .map((cust) => {
-                return (
-                  <CustCard
-                    cust={cust}
-                    id={cust._id}
-                    custId={cust.custID}
-                    custName={cust.custName}
-                    address={cust.address}
-                    mobileNumber={cust.mobile}
-                    loanAmount={cust.actualLoanAmount}
-                    pledgeDate={cust.pledgeDate}
-                    interestDue={cust.interestDue}
-                    key={cust.custID}
-                  />
-                );
-              })
-              .reverse()}
-          </div>
+          <>
+            {activeTab === "pending" && (
+              <PendingCustomers
+                searchCust={searchCust}
+                customerData={customerData}
+              />
+            )}
+            {activeTab === "completed" && (
+              <CompletedCustomers
+                searchCust={searchCust}
+                customerData={customerData}
+              />
+            )}
+            {activeTab === "allCustomers" && (
+              <AllCustomersList
+                searchCust={searchCust}
+                customerData={customerData}
+              />
+            )}
+          </>
         )}
       </div>
     </div>

@@ -13,7 +13,7 @@ const InvestmentInfo = () => {
   const navigate = useNavigate();
 
   const [investorName, setInvestorName] = useState("");
-  const [investment, setInvestment] = useState("");
+  const [investment, setInvestment] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,7 +81,7 @@ const InvestmentInfo = () => {
                 {investmentData?.investors?.length == 4 ? (
                   <select
                     id="investorName"
-                    className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-[12px] appearance-none"
+                    className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-[12px] appearance-none font-semibold tracking-widest"
                     onChange={(e) => setInvestorName(e.target.value)}
                   >
                     <option value="">Select The Investor</option>
@@ -101,7 +101,7 @@ const InvestmentInfo = () => {
                     type="text"
                     placeholder="rajkumar"
                     id="investorName"
-                    className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-[12px]"
+                    className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-[12px] font-semibold tracking-widest"
                     onChange={(e) => setInvestorName(e.target.value)}
                     value={investorName}
                   />
@@ -119,7 +119,7 @@ const InvestmentInfo = () => {
                   type="number"
                   placeholder="10000"
                   id="investmentAmt"
-                  className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-[12px]"
+                  className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-[12px] font-semibold tracking-widest"
                   onChange={(e) => setInvestment(Number(e.target.value))}
                   value={investment}
                 />

@@ -67,7 +67,7 @@ const Login = () => {
               type="text"
               placeholder="rajkumar"
               id="username"
-              className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-[12px]"
+              className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-[12px] font-semibold tracking-widest"
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
@@ -81,7 +81,7 @@ const Login = () => {
                 type={showPwd ? "text" : "password"}
                 placeholder="*********"
                 id="password"
-                className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-[12px] w-full"
+                className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-[12px] w-full  font-semibold tracking-widest"
                 onChange={(e) => setPassword(e.target.value)}
               />
               <div

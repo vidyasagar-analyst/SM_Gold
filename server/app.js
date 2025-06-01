@@ -6,6 +6,8 @@ import { AuthRouter } from "./routes/auth.routes.js";
 import { CustomerRouter } from "./routes/customer.routes.js";
 import { InvestmentRouter } from "./routes/investment.routes.js";
 
+// import multer from "multer";
+
 configDotenv();
 
 const app = express();
@@ -13,6 +15,20 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
+
+// Multer Config
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads/");
+//   },
+
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + "-" + file.originalname);
+//   },
+// });
+
+// export const uploadImg = multer({ storage: storage });
 
 app.use("/api/v1/auth", AuthRouter);
 app.use("/api/v1/customers", CustomerRouter);

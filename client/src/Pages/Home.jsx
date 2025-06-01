@@ -41,7 +41,7 @@ const Home = () => {
           </div>
           <Link
             to="/add-customer"
-            className="px-4 py-2 flex items-center gap-2 border-2 text-[12px] border-gray-800 rounded-lg hover:shadow cursor-pointer uppercase font-bold hover:border-gray-600 hover:text-gray-600 hover:bg-gray-300/25"
+            className="px-4 py-2 flex items-center gap-2 border-2 text-[12px] border-gray-800 rounded-lg hover:shadow cursor-pointer uppercase font-bold hover:border-green-600 hover:text-green-600 hover:bg-green-300/25 transition-all ease-in-out"
           >
             <FaPlus /> add new cust
           </Link>

@@ -63,7 +63,7 @@ const Signup = () => {
               type="text"
               placeholder="rajkumar"
               id="username"
-              className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-sm"
+              className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-sm font-semibold tracking-widest"
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
@@ -76,7 +76,7 @@ const Signup = () => {
               type="email"
               placeholder="name@gmail.com"
               id="emailAddress"
-              className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-sm"
+              className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-sm  font-semibold tracking-widest"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -90,7 +90,7 @@ const Signup = () => {
                 type={showPwd ? "text" : "password"}
                 placeholder="*********"
                 id="password"
-                className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-sm w-full"
+                className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-sm w-full font-semibold tracking-widest"
                 onChange={(e) => setPassword(e.target.value)}
               />
               <div

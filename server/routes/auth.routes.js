@@ -122,6 +122,10 @@ router.get("/user-data", async (req, res) => {
       return acc + (cust?.actualLoanAmount + cust?.totalProfit);
     }, 0);
 
+    const totalProfitAmount = completedCustomers.reduce((acc, cust) => {
+      return acc + cust?.totalProfit;
+    }, 0);
+
     const totalInvestment = investors.reduce((acc, investor) => {
       return acc + investor?.investment;
     }, 0);
@@ -131,7 +135,7 @@ router.get("/user-data", async (req, res) => {
     }, 0);
 
     const balanceInvestment =
-      totalInvestment - pendingLoanAmount + reinvestment;
+      totalInvestment - pendingLoanAmount + totalProfitAmount;
 
     res.status(200).json({
       success: true,

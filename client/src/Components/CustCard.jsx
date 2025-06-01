@@ -79,7 +79,7 @@ const CustCard = ({
               <p className="!text-[12px] font-semibold">Address</p>
             </div>
             <div className="col flex flex-col gap-1.5">
-              <h4>{custId}</h4>
+              <h4>SMG{custId}</h4>
               <h4>{mobileNumber}</h4>
               <h4>{capitalize(address)}</h4>
             </div>

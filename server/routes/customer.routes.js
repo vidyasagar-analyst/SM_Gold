@@ -2,9 +2,23 @@ import express from "express";
 import { CustomerModel } from "../models/customer.model.js";
 import { InvestmentModel } from "../models/investment.model.js";
 
+import multer from "multer";
+
 const router = express.Router();
 
-router.post("/add-customer", async (req, res) => {
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+export const uploadImg = multer({ storage: storage });
+
+router.post("/add-customer", uploadImg.single("image"), async (req, res) => {
   const {
     custName,
     address,
@@ -50,12 +64,13 @@ router.post("/add-customer", async (req, res) => {
     const newCustomer = new CustomerModel({
       custID: customerID,
       custName,
+      custImg: `uploads/${req.file.filename}`,
       address,
       pincode,
       mobile,
       actualLoanAmount,
       finalLoanAmount,
-      interestRate,
+      interestRate: Number(interestRate),
       processingFee,
       interestAmount: 0,
       totalProfit: processingFee,
@@ -88,7 +103,6 @@ router.post("/add-customer", async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Customer Added Successfully",
-      balanceInvestment,
     });
   } catch (error) {
     res.status(500).json({
@@ -97,6 +111,48 @@ router.post("/add-customer", async (req, res) => {
     });
   }
 });
+
+router.post(
+  "/add-ornament/:id",
+  uploadImg.single("image"),
+  async (req, res) => {
+    const { ornamentName, count, grossWeight, stoneWeight, remarks } = req.body;
+    const { id } = req.params;
+
+    try {
+      const customer = await CustomerModel.findById(id);
+
+      if (!customer) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Customer Not Found!" });
+      }
+
+      const ornament = {
+        ornamentName,
+        count,
+        grossWeight,
+        stoneWeight,
+        remarks,
+        ornamentImg: `uploads/${req.file.filename}`,
+      };
+
+      customer.ornaments.push(ornament);
+      await customer.save();
+
+      res.status(201).json({
+        success: true,
+        message: "Ornament Added Successfully",
+        customer,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: falsse,
+        message: `Ornament Add Failed: ${error.message}`,
+      });
+    }
+  }
+);
 
 router.get("/all-customers", async (req, res) => {
   try {

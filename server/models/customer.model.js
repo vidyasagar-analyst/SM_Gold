@@ -1,4 +1,33 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
+
+const OrnamentSchema = new mongoose.Schema({
+  ornamentName: {
+    type: String,
+    require: true,
+  },
+
+  count: {
+    type: Number,
+    default: 1,
+  },
+
+  grossWeight: {
+    type: Number,
+    require: true,
+  },
+
+  stoneWeight: {
+    type: Number,
+    require: true,
+    default: 0,
+  },
+
+  remarks: String,
+
+  ornamentImg: {
+    type: String,
+  },
+});
 
 const CustomerSchema = new mongoose.Schema(
   {
@@ -10,10 +39,7 @@ const CustomerSchema = new mongoose.Schema(
       require: true,
     },
 
-    custImg: {
-      type: String,
-      require: false,
-    },
+    custImg: String,
 
     address: {
       type: String,
@@ -83,7 +109,7 @@ const CustomerSchema = new mongoose.Schema(
       type: String,
     },
 
-    // ornaments: [{ type: Schema.Types.ObjectId, ref: "ornament", default: [] }],
+    ornaments: [OrnamentSchema],
   },
   { timestamps: true }
 );
