@@ -12,36 +12,39 @@ const AddCustomer = () => {
   const [pincode, setPincode] = useState("");
   const [actualLoanAmount, setActualLoanAmount] = useState(null);
   const [interestRate, setInterestRate] = useState(0);
-  const [schema, setSchema] = useState(null);
+  const [schema, setSchema] = useState(0);
   const [nominee, setNominee] = useState("");
+  const [custImg, setCustImg] = useState(null);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("custName", custName);
+    formData.append("mobile", mobile);
+    formData.append("aadhar", aadhar);
+    formData.append("address", address);
+    formData.append("pincode", pincode);
+    formData.append("actualLoanAmount", actualLoanAmount);
+    formData.append("interestRate", interestRate);
+    formData.append("schema", schema);
+    formData.append("nominee", nominee);
+    formData.append("custImg", custImg);
+
     try {
       const result = await axios.post(
         "http://localhost:8000/api/v1/customers/add-customer",
-        {
-          custName,
-          mobile,
-          aadhar,
-          address,
-          pincode,
-          actualLoanAmount,
-          interestRate,
-          schema,
-          nominee,
-        }
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       toast.success(result?.data?.message);
       navigate("/customers");
     } catch (error) {
       toast.error(
-        error?.response?.data?.message ||
-          "Something Went Wrong! Try Again Later!"
+        error?.response?.data?.message //  || "Something Went Wrong! Try Again Later!"
       );
     }
   };
@@ -195,6 +198,20 @@ const AddCustomer = () => {
                 <option value={"9"}>SM_GOLD_9</option>
                 <option value={"12"}>SM_GOLD_12</option>
               </select>
+            </div>
+
+            <div className="col flex flex-col gap-2">
+              <label htmlFor="custImg" className="text-sm font-semibold">
+                Customer Image
+              </label>
+              <input
+                type="file"
+                placeholder="Enter the Nominee Name"
+                id="custImg"
+                className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-sm font-semibold tracking-widest"
+                name="custImg"
+                onChange={(e) => setCustImg(e.target.files[0])}
+              />
             </div>
           </div>
 

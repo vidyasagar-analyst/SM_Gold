@@ -75,7 +75,7 @@ const AllCustomers = () => {
             </p>
           </div>
         ) : (
-          <>
+          <div className="h-[500px] overflow-y-scroll">
             {activeTab === "pending" && (
               <PendingCustomers
                 searchCust={searchCust}
@@ -94,7 +94,7 @@ const AllCustomers = () => {
                 customerData={customerData}
               />
             )}
-          </>
+          </div>
         )}
       </div>
     </div>

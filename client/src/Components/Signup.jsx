@@ -52,7 +52,7 @@ const Signup = () => {
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <div className="w-[30%] p-8 bg-white border border-gray-400/25 rounded-md">
+      <div className="w-[30%] p-8 bg-white border border-gray-400/25 rounded-md shadow-lg">
         <h2 className=" mb-6">Welcome To SMGL</h2>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2 mb-5">

@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { UserModel } from "../models/auth.model.js";
 import { CustomerModel } from "../models/customer.model.js";
 import { InvestmentModel } from "../models/investment.model.js";
+import { ExpenseModel } from "../models/expense.model.js";
 
 const router = express.Router();
 
@@ -97,6 +98,7 @@ router.get("/user-data", async (req, res) => {
     const users = await UserModel.find({}).select("-password");
     const customers = await CustomerModel.find({});
     const investors = await InvestmentModel.find({});
+    const expenses = await ExpenseModel.find();
 
     if (!users) {
       return res
@@ -122,8 +124,12 @@ router.get("/user-data", async (req, res) => {
       return acc + (cust?.actualLoanAmount + cust?.totalProfit);
     }, 0);
 
-    const totalProfitAmount = completedCustomers.reduce((acc, cust) => {
+    const totalProfitAmount = customers.reduce((acc, cust) => {
       return acc + cust?.totalProfit;
+    }, 0);
+
+    const totalExpenses = expenses.reduce((acc, expense) => {
+      return acc + expense?.amount;
     }, 0);
 
     const totalInvestment = investors.reduce((acc, investor) => {
@@ -135,13 +141,15 @@ router.get("/user-data", async (req, res) => {
     }, 0);
 
     const balanceInvestment =
-      totalInvestment - pendingLoanAmount + totalProfitAmount;
+      totalInvestment - pendingLoanAmount + totalProfitAmount - totalExpenses;
 
     res.status(200).json({
       success: true,
       message: "Users Data Fetched",
       totalInvestment,
       totalLoanAmount,
+      pendingLoanAmount,
+      totalProfitAmount,
       reinvestment,
       balanceInvestment,
       superAdmin,

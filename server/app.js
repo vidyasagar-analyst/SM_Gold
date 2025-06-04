@@ -5,6 +5,7 @@ import { connectDB } from "./utils/connDB.js";
 import { AuthRouter } from "./routes/auth.routes.js";
 import { CustomerRouter } from "./routes/customer.routes.js";
 import { InvestmentRouter } from "./routes/investment.routes.js";
+import { ExpenseRouter } from "./routes/expense.routes.js";
 
 // import multer from "multer";
 
@@ -33,6 +34,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/v1/auth", AuthRouter);
 app.use("/api/v1/customers", CustomerRouter);
 app.use("/api/v1/investment", InvestmentRouter);
+app.use("/api/v1/expense", ExpenseRouter);
 
 app.listen(PORT, () => {
   console.log(`Server Running on PORT: ${PORT}`);

@@ -60,3 +60,19 @@ input::-webkit-inner-spin-button {
   color: black;
   border-bottom: 2px solid black;
 }
+
+/* PopUp modal */
+.modal,
+.modalOverlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+}
+
+.modalOverlay {
+  background: rgba(49, 49, 49, 0.8);
+}

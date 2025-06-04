@@ -1,16 +1,27 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import PopupModal from "./PopupModal";
 
 const InvestmentInfoTable = ({ investmentData, capitalize }) => {
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const deleteOpen = () => {
+    setOpenDeleteModal(true);
+  };
+
+  const deleteClose = () => {
+    setOpenDeleteModal(false);
+  };
   const handleDeleteInvestor = async (id) => {
     try {
       const result = await axios.delete(
         `http://localhost:8000/api/v1/investment/delete-investor/${id}`
       );
       toast.success(result?.data?.message);
+      deleteClose();
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -53,11 +64,22 @@ const InvestmentInfoTable = ({ investmentData, capitalize }) => {
                 <td className="px-6 py-3">
                   <button
                     className="px-4 py-2 rounded-md text-[12px] font-bold text-danger hover:bg-red-300/25 cursor-pointer flex items-center gap-2"
-                    onClick={() => handleDeleteInvestor(investor?._id)}
+                    onClick={deleteOpen}
                   >
                     <FaRegTrashAlt /> Remove
                   </button>{" "}
                 </td>
+
+                {openDeleteModal && (
+                  <PopupModal
+                    description={`Are you sure you want to Delete ${capitalize(
+                      investor?.investorName
+                    )} Investor?`}
+                    btnName="Delete"
+                    closeModal={deleteClose}
+                    handleClick={() => handleDeleteInvestor(investor?._id)}
+                  />
+                )}
               </tr>
             );
           })}

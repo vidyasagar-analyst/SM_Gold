@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, Navigate, NavLink } from "react-router-dom";
 import { AppContext } from "../Utils/AppContext";
 import { MdNotificationsActive } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
+import PopupModal from "./PopupModal";
 
 const Navbar = () => {
   const { removeCookie, isAuth, setIsAuth, currUser, customerData } =
@@ -21,9 +22,20 @@ const Navbar = () => {
     localStorage.clear();
     removeCookie("accessToken");
     setIsAuth(false);
+    toggleClose();
     <Navigate to="/auth/login" />;
   };
 
+  const [openModal, setOpenModal] = useState(false);
+
+  const toggleOpen = () => {
+    setOpenModal(true);
+  };
+
+  const toggleClose = () => {
+    setOpenModal(false);
+  };
+  
   return (
     <>
       {isAuth && (
@@ -77,13 +89,22 @@ const Navbar = () => {
 
               <button
                 className="px-4 py-1.5 text-red-500 border border-red-500 hover:bg-red-300/50 rounded-md font-bold text-[12px] cursor-pointer transition-all ease-in-out uppercase flex items-center gap-2"
-                onClick={handleLogout}
+                onClick={toggleOpen}
               >
                 <MdLogout /> Logout
               </button>
             </div>
           </div>
         </div>
+      )}
+
+      {openModal && (
+        <PopupModal
+          description="Are you sure want to Logout?"
+          btnName="Logout"
+          closeModal={toggleClose}
+          handleClick={handleLogout}
+        />
       )}
     </>
   );

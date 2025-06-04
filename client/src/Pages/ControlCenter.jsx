@@ -5,9 +5,19 @@ import { MdOutlineEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "sonner";
+import PopupModal from "../Components/PopupModal";
 
 const ControlCenter = () => {
   const { currUser, userData, capitalize } = useContext(AppContext);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const deleteOpen = () => {
+    setOpenDeleteModal(true);
+  };
+
+  const deleteClose = () => {
+    setOpenDeleteModal(false);
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -15,6 +25,7 @@ const ControlCenter = () => {
         `http://localhost:8000/api/v1/auth/delete-user/${id}`
       );
       toast.success(result?.data?.message);
+      deleteClose();
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||
@@ -32,16 +43,19 @@ const ControlCenter = () => {
             heading={`₹.${userData?.totalInvestment}`}
             subTitle="Total Investment"
             redirectPath="/investment-info"
+            title="Click to View All Investment Info"
           />
           <InfoCard
-            heading={`₹.${userData?.totalLoanAmount}`}
-            subTitle="Total Loan Amount"
+            heading={`₹.${userData?.pendingLoanAmount}`}
+            subTitle="Pending Loan Amount"
             redirectPath="/loan-amount-info"
+            title="Click to View All Loan amount Info"
           />
           <InfoCard
             heading={`₹.${userData?.balanceInvestment}`}
             subTitle="Balance Investment"
             redirectPath="/balance-investment"
+            title="Click to View Profit and Expense Info"
           />
         </div>
 
@@ -74,12 +88,23 @@ const ControlCenter = () => {
                         user?.role != "SuperAdmin" ? "hover:bg-red-300/25" : ""
                       } cursor-pointer flex items-center gap-2`}
                       disabled={user?.role == "SuperAdmin"}
-                      onClick={() => handleDelete(user?._id)}
+                      onClick={deleteOpen}
                     >
                       <FaRegTrashAlt /> delete
                     </button>
                   </div>
                 </div>
+
+                {openDeleteModal && (
+                  <PopupModal
+                    description={`Are you sure you want to Delete ${capitalize(
+                      user?.username
+                    )} User?`}
+                    btnName="Delete"
+                    closeModal={deleteClose}
+                    handleClick={() => handleDelete(user?._id)}
+                  />
+                )}
               </div>
             );
           })}

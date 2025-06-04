@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import PopupModal from "../Components/PopupModal";
 
 const InvestmentInfo = () => {
   const { capitalize, investmentData } = useContext(AppContext);

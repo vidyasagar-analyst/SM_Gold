@@ -18,12 +18,13 @@ const storage = multer.diskStorage({
 
 export const uploadImg = multer({ storage: storage });
 
-router.post("/add-customer", uploadImg.single("image"), async (req, res) => {
+router.post("/add-customer", uploadImg.single("custImg"), async (req, res) => {
   const {
     custName,
     address,
     pincode,
     mobile,
+    aadhar,
     actualLoanAmount,
     interestRate,
     schema,
@@ -49,7 +50,7 @@ router.post("/add-customer", uploadImg.single("image"), async (req, res) => {
 
     const nextDueMonth = new Date(
       now.getFullYear(),
-      now.getMonth() + schema,
+      now.getMonth() + Number(schema),
       now.getDate()
     ).toDateString();
     const nextDueYear = new Date(
@@ -68,6 +69,7 @@ router.post("/add-customer", uploadImg.single("image"), async (req, res) => {
       address,
       pincode,
       mobile,
+      aadhar,
       actualLoanAmount,
       finalLoanAmount,
       interestRate: Number(interestRate),
@@ -114,7 +116,7 @@ router.post("/add-customer", uploadImg.single("image"), async (req, res) => {
 
 router.post(
   "/add-ornament/:id",
-  uploadImg.single("image"),
+  uploadImg.single("ornamentImg"),
   async (req, res) => {
     const { ornamentName, count, grossWeight, stoneWeight, remarks } = req.body;
     const { id } = req.params;
@@ -234,7 +236,7 @@ router.put("/complete-customer/:id", async (req, res) => {
     const totalProfit = customer?.processingFee + totalInterest;
 
     customer.status = "Completed";
-    customer.interestAmount = totalInterest;
+    customer.interestAmount = Math.floor(totalInterest);
     customer.totalProfit = Math.floor(totalProfit);
     customer.completedAt = new Date();
 

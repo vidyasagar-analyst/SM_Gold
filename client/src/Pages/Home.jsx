@@ -57,7 +57,7 @@ const Home = () => {
             </p>
           </div>
         ) : (
-          <div className="mt-8">
+          <div className="mt-8 h-[360px] overflow-y-auto">
             {customerData?.allCustomersList
               ?.slice(-5)
               ?.reverse()

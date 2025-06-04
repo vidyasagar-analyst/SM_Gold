@@ -1,4 +1,5 @@
 import React from "react";
+import OrnamentTable from "./OrnamentTable";
 
 const ReceiptView = ({ customer, capitalize }) => {
   return (
@@ -50,7 +51,26 @@ const ReceiptView = ({ customer, capitalize }) => {
         </div>
 
         {/* second col */}
-        <div className="col-span-2 bg-amber-700">col2</div>
+        <div className="col-span-2 border-b border-r overflow-hidden">
+          <div className="flex justify-center gap-5">
+            <img
+              src={`http://localhost:8000/${customer?.custImg}`}
+              alt={customer?.custName}
+              className="border h-[150px] w-[150px]"
+            />
+            <img
+              src={`http://localhost:8000/${customer?.ornaments[0]?.ornamentImg}`}
+              alt={customer?.ornaments[0]?.ornamentName}
+              className="border h-[150px] w-[150px]"
+            />
+          </div>
+          <h4 className="border-b py-1 text-center">
+            Ornament Type | Count | Gross Wt | Deductions | Net Wt
+          </h4>
+          <div>
+            <OrnamentTable customer={customer} capitalize={capitalize} />
+          </div>
+        </div>
 
         {/* third col */}
         <div className="col-span-1 flex flex-col justify-between pb-8 border-b">
@@ -87,7 +107,7 @@ const ReceiptView = ({ customer, capitalize }) => {
         </div>
         <div className="col grid grid-cols-2 justify-between">
           <p className="font-bold">Customer</p>
-          <p>ramesh</p>
+          <p>{capitalize(customer?.custName)}</p>
         </div>
         <div className="col grid grid-cols-2 justify-between">
           <p className="font-bold">Place</p>
