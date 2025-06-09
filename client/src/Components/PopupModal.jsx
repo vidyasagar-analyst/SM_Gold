@@ -4,7 +4,7 @@ const PopupModal = ({ description, btnName, closeModal, handleClick }) => {
   return (
     <div className="modal overflow-hidden z-50">
       <div className="modalOverlay"></div>
-      <div className="w-[400px] h-[200px] bg-white shadow-lg rounded-md p-8 z-50 flex flex-col justify-center items-center absolute top-60 left-[600px]">
+      <div className="w-[350px] sm:w-[400px] h-[200px] bg-white shadow-lg rounded-md p-8 z-50 flex flex-col justify-center items-center absolute top-[37%] left-[7.5%] sm:top-60 sm:left-[600px]">
         <h2 className="font-bold text-center">{description}</h2>
         <div className="flex items-center gap-5 mt-8">
           <button

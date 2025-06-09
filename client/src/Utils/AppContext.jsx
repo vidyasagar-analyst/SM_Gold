@@ -19,9 +19,9 @@ const AppContextProvider = ({ children }) => {
   const [currUser, setCurrUser] = useState({});
   const FetchCurrUser = async () => {
     const result = await axios.get(
-      `http://localhost:8000/api/v1/auth/user/${localStorage.getItem(
-        "userID"
-      )}`,
+      `${
+        import.meta.env.VITE_BACKEND_BASE_URL
+      }/auth/user/${localStorage.getItem("userID")}`,
       { headers: { authorization: cookies.accessToken } }
     );
 
@@ -32,7 +32,7 @@ const AppContextProvider = ({ children }) => {
   const [customerData, setCustomerData] = useState([]);
   const fetchCustomerData = async () => {
     const result = await axios.get(
-      "http://localhost:8000/api/v1/customers/all-customers"
+      `${import.meta.env.VITE_BACKEND_BASE_URL}/customers/all-customers`
     );
 
     setCustomerData(result?.data);
@@ -42,7 +42,7 @@ const AppContextProvider = ({ children }) => {
   const [userData, setUserData] = useState([]);
   const fetchUserData = async () => {
     const result = await axios.get(
-      "http://localhost:8000/api/v1/auth/user-data"
+      `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/user-data`
     );
 
     setUserData(result?.data);
@@ -53,11 +53,11 @@ const AppContextProvider = ({ children }) => {
   const fetchInvestmentInfo = async () => {
     try {
       const result = await axios.get(
-        "http://localhost:8000/api/v1/investment/investment-info"
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/investment/investment-info`
       );
       setInvestmentData(result?.data);
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     }
   };
 
@@ -65,11 +65,32 @@ const AppContextProvider = ({ children }) => {
   const deleteCustomer = async (id) => {
     try {
       const result = await axios.delete(
-        `http://localhost:8000/api/v1/customers/delete-customer/${id}`
+        `${
+          import.meta.env.VITE_BACKEND_BASE_URL
+        }/customers/delete-customer/${id}`
       );
       toast.success(result?.data?.message);
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to Delete this Customer! Try Again Later!"
+      );
+    }
+  };
+
+  // Expense Details
+  const [expenseData, setExpenseData] = useState([]);
+  const fetchExpenseData = async () => {
+    try {
+      const result = await axios.get(
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/expense/expense-data`
+      );
+      setExpenseData(result?.data);
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message ||
+          "Something went wrong! Try again Later!"
+      );
     }
   };
 
@@ -81,6 +102,10 @@ const AppContextProvider = ({ children }) => {
     fetchUserData();
     fetchInvestmentInfo();
   }, [isAuth, customerData]);
+
+  useEffect(() => {
+    fetchExpenseData();
+  }, [expenseData]);
 
   const contextValues = {
     capitalize,
@@ -94,6 +119,7 @@ const AppContextProvider = ({ children }) => {
     userData,
     investmentData,
     deleteCustomer,
+    expenseData,
   };
 
   return (

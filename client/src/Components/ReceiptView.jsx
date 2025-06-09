@@ -1,9 +1,9 @@
 import React from "react";
 import OrnamentTable from "./OrnamentTable";
 
-const ReceiptView = ({ customer, capitalize }) => {
+const ReceiptView = ({ customer, capitalize, contentRef }) => {
   return (
-    <>
+    <div ref={contentRef} className="sm:px-10 sm:py-7">
       {/* Header */}
       <div className="flex items-center justify-between gap-2">
         <h2>SM Gold Loan</h2>
@@ -15,7 +15,7 @@ const ReceiptView = ({ customer, capitalize }) => {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-5 mt-10">
+      <div className="grid grid-cols-2 sm:grid-cols-5 mt-5">
         {/* First col */}
         <div className="col-span-2 grid grid-cols-2 gap-5 border-b border-r pb-10">
           <div className="col flex flex-col gap-2">
@@ -51,15 +51,15 @@ const ReceiptView = ({ customer, capitalize }) => {
         </div>
 
         {/* second col */}
-        <div className="col-span-2 border-b border-r overflow-hidden">
+        <div className="col-span-2 border-b overflow-hidden">
           <div className="flex justify-center gap-5">
             <img
-              src={`http://localhost:8000/${customer?.custImg}`}
+              src={`${customer?.custImg}`}
               alt={customer?.custName}
               className="border h-[150px] w-[150px]"
             />
             <img
-              src={`http://localhost:8000/${customer?.ornaments[0]?.ornamentImg}`}
+              src={`${customer?.ornaments[0]?.ornamentImg}`}
               alt={customer?.ornaments[0]?.ornamentName}
               className="border h-[150px] w-[150px]"
             />
@@ -73,21 +73,67 @@ const ReceiptView = ({ customer, capitalize }) => {
         </div>
 
         {/* third col */}
-        <div className="col-span-1 flex flex-col justify-between pb-8 border-b">
+        <div className="col-span-1 flex flex-col justify-between pb-8 border-b border-l">
           {/* Top */}
-          <div className="grid grid-cols-2 items-center gap-3 border-b p-2">
-            <p className="!text-[12px]">Branch Name</p>
-            <p className="!text-[12px]">KRISHNAGIRI</p>
-            <p className="!text-[12px]">Phone</p>
-            <p className="!text-[12px]">9988009988</p>
-            <p className="!text-[12px]">Print Date</p>
-            <p className="!text-[12px]">{new Date().toDateString()}</p>
+          <div className="grid grid-cols-2 items-center gap-2 border-b p-2">
+            <p className="!text-[10px]">Branch Name</p>
+            <p className="!text-[10px]">KRISHNAGIRI</p>
+            <p className="!text-[10px]">Phone</p>
+            <p className="!text-[10px]">9988009988</p>
+            <p className="!text-[10px]">Print Date</p>
+            <p className="!text-[10px]">{new Date().toDateString()}</p>
           </div>
           {/* Table */}
-          <div className="border-b border-r"></div>
+          <div className="border-b">
+            <p className="!text-[8px] my-1">
+              Interest rebate is available as mentioned below, only if up to
+            </p>
+
+            <div className="grid grid-cols-4 pl-2">
+              <div className="col-span-2 border-t border-r">
+                <h4 className="!text-[8px] border-b pb-3">If paid within</h4>
+                <p className="!text-[8px] mb-1">
+                  1. Upto 35 Days From Loan Date
+                </p>
+                <p className="!text-[8px] mb-1">
+                  2. 36 To 92 Days From Loan Date
+                </p>
+                <p className="!text-[8px] mb-1">
+                  3. 93 To 180 Days From Loan Date
+                </p>
+                <p className="!text-[8px] mb-1">
+                  4. 181 To 270 Days From Loan Date
+                </p>
+                <p className="!text-[8px] mb-1">
+                  5. 271 To 366 Days From Loan Date
+                </p>
+                <p className="!text-[8px] mb-1">
+                  6. Above 367 Days From Loan Date
+                </p>
+              </div>
+              <div className="col border-t border-r pl-2">
+                <h4 className="!text-[8px] border-b pb-3">Rebat</h4>
+                <p className="!text-[8px] mb-4 mt-1">15%</p>
+                <p className="!text-[8px] mb-4 mt-1">10%</p>
+                <p className="!text-[8px] mb-4 mt-1">6%</p>
+                <p className="!text-[8px] mb-4 mt-1">3%</p>
+                <p className="!text-[8px] mb-4 mt-1">1%</p>
+                <p className="!text-[8px] mb-4 mt-1">0%</p>
+              </div>
+              <div className="col border-t border-r pl-1">
+                <h4 className="!text-[8px] border-b">Effective ROI</h4>
+                <p className="!text-[8px] mb-4 mt-1">15%</p>
+                <p className="!text-[8px] mb-4 mt-1">20%</p>
+                <p className="!text-[8px] mb-4 mt-1">24%</p>
+                <p className="!text-[8px] mb-4 mt-1">27%</p>
+                <p className="!text-[8px] mb-4 mt-1">29%</p>
+                <p className="!text-[8px] mb-4 mt-1">30%</p>
+              </div>
+            </div>
+          </div>
           {/* Bottom */}
           <div className="p-1">
-            <p className="font-semibold !text-[10px] !text-black">
+            <p className="font-semibold !text-[8px] !text-black">
               Penal Charges at 4% on Principal outstanding will be leveled after
               maturity date for the defaulted days.
             </p>
@@ -96,7 +142,7 @@ const ReceiptView = ({ customer, capitalize }) => {
       </div>
 
       {/* Acknowledgement */}
-      <div className="grid grid-cols-3 gap-7 items-center justify-between px-10 py-5">
+      <div className="grid grid-cols-3 gap-7 items-center justify-between px-10 py-3">
         <div className="col grid grid-cols-2 justify-between">
           <p className="font-bold">Date</p>
           <p></p>
@@ -124,14 +170,14 @@ const ReceiptView = ({ customer, capitalize }) => {
       </div>
 
       {/* Demand Note */}
-      <div className="border-2 border-black p-4 my-10">
+      <div className="border-2 border-black p-4 my-5">
         <h3 className="underline underline-offset-4 mb-4">
           Demand Promissory Note:
         </h3>
         <p className="w-40 border-b-2 border-dotted font-bold mb-4">
           Rs. {customer?.finalLoanAmount}
         </p>
-        <div className="leading-6 tracking-wide mb-10">
+        <div className="leading-6 tracking-wide mb-6">
           <p className="inline">ON DEMAND, I </p>
           <p className="w-80 border-b-2 border-dotted inline-block px-5 font-bold">
             {capitalize(customer?.custName)}
@@ -164,11 +210,11 @@ const ReceiptView = ({ customer, capitalize }) => {
 
       {/* Confirmation */}
       <div className="border-2 border-black p-4">
-        <h3 className="underline underline-offset-4 mb-4">
+        <h3 className="underline underline-offset-4 mb-2">
           Ornament Release Confirmation
         </h3>
 
-        <p className="leading-6 tracking-wide mb-10">
+        <p className="leading-6 tracking-wide mb-3">
           I hereby acknowledge that, I havve received all the gold ornaments
           which has been mentioned in above table in its original shape and
           condition without any damage. And indemnify that I shall have no claim
@@ -179,7 +225,7 @@ const ReceiptView = ({ customer, capitalize }) => {
           <p className="pr-40">Borrower Signature</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

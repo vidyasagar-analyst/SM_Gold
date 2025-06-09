@@ -18,13 +18,13 @@ const AllCustomers = () => {
 
   const navigate = useNavigate();
   return (
-    <div className="flex justify-center pt-24 h-fixed">
-      <div className="w-3/4">
-        <div className="flex items-center justify-between mb-4">
+    <div className="flex justify-center pt-20 sm:pt-20 overflow-hidden h-fixed">
+      <div className="w-[95%] sm:w-3/4">
+        <div className="flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mb-4">
           <h2>All Customers Information</h2>
-          <div className="flex items-center gap-2">
+          <div className="grid grid-cols-2 gap-y-2 sm:flex sm:items-center sm:gap-2 mt-3">
             <button
-              className={`px-4 py-2 rounded-md text-[12px] uppercase font-bold text-red-500 ${
+              className={`px-4 py-2 rounded-md text-[11px] sm:text-[12px] uppercase font-bold text-red-500 ${
                 activeTab === "pending" && "bg-red-300/50"
               } hover:bg-red-300/50 cursor-pointer flex items-center gap-2`}
               onClick={() => setActiveTab("pending")}
@@ -32,15 +32,15 @@ const AllCustomers = () => {
               <FaExclamationTriangle /> Pending Customers
             </button>
             <button
-              className={`px-4 py-2 rounded-md text-[12px] uppercase font-bold text-green-500 ${
+              className={`px-4 py-2 rounded-md text-[11px] sm:text-[12px] uppercase font-bold text-green-500 ${
                 activeTab === "completed" && "bg-green-300/50"
               } hover:bg-green-300/50 cursor-pointer flex items-center gap-2`}
               onClick={() => setActiveTab("completed")}
             >
-              <FaCircleCheck /> Completed Customers
+              <FaCircleCheck /> Finished Customers
             </button>
             <button
-              className={`px-4 py-2 rounded-md text-[12px] uppercase font-bold text-blue-500 ${
+              className={`px-4 py-2 rounded-md text-[11px] sm:text-[12px] uppercase font-bold text-blue-500 ${
                 activeTab === "allCustomers" && "bg-blue-300/50"
               } hover:bg-blue-300/50 cursor-pointer flex items-center gap-2`}
               onClick={() => setActiveTab("allCustomers")}
@@ -48,7 +48,7 @@ const AllCustomers = () => {
               <FaUsers /> All Customers
             </button>
             <button
-              className="px-4 py-2 rounded-md text-[12px] uppercase font-bold text-secondary hover:bg-gray-300/50 cursor-pointer flex items-center gap-2"
+              className="px-4 py-2 rounded-md text-[11px] sm:text-[12px] uppercase font-bold text-secondary hover:bg-gray-300/50 cursor-pointer flex items-center gap-2"
               onClick={() => navigate(-1)}
             >
               <IoMdArrowRoundBack /> back
@@ -75,7 +75,7 @@ const AllCustomers = () => {
             </p>
           </div>
         ) : (
-          <div className="h-[500px] overflow-y-scroll">
+          <div className="h-[600px] sm:max-h-[500px] overflow-y-auto">
             {activeTab === "pending" && (
               <PendingCustomers
                 searchCust={searchCust}

@@ -35,7 +35,7 @@ const AddCustomer = () => {
 
     try {
       const result = await axios.post(
-        "http://localhost:8000/api/v1/customers/add-customer",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/customers/add-customer`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -44,17 +44,21 @@ const AddCustomer = () => {
       navigate("/customers");
     } catch (error) {
       toast.error(
-        error?.response?.data?.message //  || "Something Went Wrong! Try Again Later!"
+        error?.response?.data?.message ||
+          "Failed to Add Customer! Try Again Later!"
       );
     }
   };
 
   return (
     <div className="h-fixed pt-20 flex items-center justify-center">
-      <div className="w-3/4 p-7 bg-white border border-gray-400/25 rounded-lg">
+      <div className="w-[95%] sm:w-3/4 p-4 sm:p-7 bg-white border border-gray-400/25 rounded-lg">
         <h2 className="mb-5">Add New Customer</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-3 gap-4">
+        <form
+          onSubmit={handleSubmit}
+          className="h-[675px] sm:h-auto overflow-y-auto"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="col flex flex-col gap-2">
               <label htmlFor="custName" className="text-sm font-semibold">
                 Customer Name
@@ -183,7 +187,7 @@ const AddCustomer = () => {
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="schema" className="text-sm font-semibold">
-                Schema
+                Scheme
               </label>
               <select
                 id="schema"
@@ -191,7 +195,7 @@ const AddCustomer = () => {
                 className="p-3 pr-4 appearance-none border border-gray-400/25 bg-gray-200/50 rounded-md text-sm font-semibold tracking-widest"
                 onChange={(e) => setSchema(Number(e.target.value))}
               >
-                <option>Select Schema</option>
+                <option>Select Scheme</option>
                 <option value={"1"}>SM_GOLD_1</option>
                 <option value={"3"}>SM_GOLD_3</option>
                 <option value={"6"}>SM_GOLD_6</option>
@@ -211,6 +215,7 @@ const AddCustomer = () => {
                 className="p-3 border border-gray-400/25 bg-gray-200/50 rounded-md text-sm font-semibold tracking-widest"
                 name="custImg"
                 onChange={(e) => setCustImg(e.target.files[0])}
+                required
               />
             </div>
           </div>

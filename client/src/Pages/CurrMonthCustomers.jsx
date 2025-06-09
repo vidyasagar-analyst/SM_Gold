@@ -13,7 +13,7 @@ const CurrMonthCustomers = () => {
 
   return (
     <div className="flex justify-center pt-24 h-fixed">
-      <div className="w-3/4">
+      <div className="w-[95%] sm:w-3/4">
         <div className="flex items-center justify-between mb-4">
           <h2>{month} Month Customer Information</h2>
           <button
@@ -43,7 +43,7 @@ const CurrMonthCustomers = () => {
             </p>
           </div>
         ) : (
-          <div>
+          <div className="h-[600px] sm:h-[480px] overflow-y-auto">
             {customerData?.currentMonthCustomers
               ?.filter((cust) => {
                 return (

@@ -5,7 +5,7 @@ import InfoCard from "./InfoCard";
 const ProfitInfo = ({ customerData, expenseData, userData, capitalize }) => {
   return (
     <div>
-      <div className="flex items-center justify-between my-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between my-5">
         <InfoCard
           heading={`₹.${userData?.totalInvestment}`}
           subTitle="Total Investment"

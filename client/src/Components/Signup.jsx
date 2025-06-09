@@ -35,7 +35,7 @@ const Signup = () => {
     if (username && email && password) {
       try {
         const result = await axios.post(
-          "http://localhost:8000/api/v1/auth/register",
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/register`,
           { username, email, password }
         );
 
@@ -52,7 +52,7 @@ const Signup = () => {
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <div className="w-[30%] p-8 bg-white border border-gray-400/25 rounded-md shadow-lg">
+      <div className="w-full sm:w-[30%] p-8 bg-white border border-gray-400/25 rounded-md shadow-lg">
         <h2 className=" mb-6">Welcome To SMGL</h2>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2 mb-5">

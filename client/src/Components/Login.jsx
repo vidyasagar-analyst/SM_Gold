@@ -34,7 +34,7 @@ const Login = () => {
     if (username && password) {
       try {
         const result = await axios.post(
-          "http://localhost:8000/api/v1/auth/login",
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/login`,
           { username, password }
         );
         setCookies("accessToken", result?.data?.accessToken);
@@ -56,7 +56,7 @@ const Login = () => {
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <div className="w-[30%] p-8 bg-white border border-gray-400/25 rounded-md shadow-lg">
+      <div className="w-full sm:w-[30%] p-8 bg-white border border-gray-400/25 rounded-md shadow-lg">
         <h2 className=" mb-6">Welcome To SMGL</h2>
         <form onSubmit={hanldeSubmit}>
           <div className="flex flex-col gap-2 mb-5">

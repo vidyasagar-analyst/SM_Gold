@@ -13,39 +13,28 @@ import Expenses from "../Components/Expenses";
 import AddExpense from "../Components/AddExpense";
 
 const BalanceInvestment = () => {
-  const { capitalize, userData, customerData } = useContext(AppContext);
+  const { capitalize, userData, customerData, expenseData } =
+    useContext(AppContext);
   const [activeTab, setActiveTab] = useState("profit");
-  const [expenseData, setExpenseData] = useState([]);
   const [openAddExp, setOpenAddExp] = useState(false);
 
   const closeAddExp = () => {
     setOpenAddExp(false);
   };
 
-  const fetchExpenseData = async () => {
-    const result = await axios.get(
-      "http://localhost:8000/api/v1/expense/expense-data"
-    );
-    setExpenseData(result?.data);
-  };
-
-  useEffect(() => {
-    fetchExpenseData();
-  }, [expenseData]);
-
   const navigate = useNavigate();
   return (
     <div className="h-fixed pt-24 flex justify-center">
-      <div className="w-3/4">
-        <div className="flex items-center justify-between">
+      <div className="w-[95%] sm:w-3/4">
+        <div className="flex gap-3 sm:items-center flex-col sm:flex-row sm:justify-between">
           <h2>{activeTab == "profit" ? "Profit" : "Expense"} Information</h2>
-          <div className="flex items-center gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:gap-2">
             {activeTab == "expense" && (
               <button
                 className={`px-4 py-2 rounded-md text-[12px] uppercase font-bold text-blue-500  hover:bg-blue-300/50 cursor-pointer flex items-center gap-2`}
                 onClick={() => setOpenAddExp(true)}
               >
-                <MdOutlinePlaylistAdd /> Add Expense
+                <MdOutlinePlaylistAdd /> Add Exp
               </button>
             )}
             <button

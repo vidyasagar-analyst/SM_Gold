@@ -1,36 +1,3 @@
-export const custDetails = [
-  {
-    custId: 990001,
-    custName: "Thirupathy",
-    address: "Krishnagiri",
-    mobileNumber: "7708554421",
-  },
-  {
-    custId: 990002,
-    custName: "Prasanth",
-    address: "Krishnagiri",
-    mobileNumber: "7708554421",
-  },
-  {
-    custId: 990003,
-    custName: "Raj Kumar",
-    address: "Krishnagiri",
-    mobileNumber: "7708554421",
-  },
-  {
-    custId: 990004,
-    custName: "Prabanjan",
-    address: "Krishnagiri",
-    mobileNumber: "7708554421",
-  },
-  {
-    custId: 990005,
-    custName: "Sornambikai",
-    address: "Krishnagiri",
-    mobileNumber: "7708554421",
-  },
-];
-
 export const formData = [
   {
     label: "Customer Name",

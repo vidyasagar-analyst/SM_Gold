@@ -9,9 +9,11 @@ const LoanAmountInfo = () => {
   const navigate = useNavigate();
   return (
     <div className="h-fixed pt-24 flex justify-center">
-      <div className="w-3/4">
+      <div className="w-[95%] sm:w-3/4">
         <div className="flex items-center justify-between">
-          <h2>Loan Amount Information [ ₹.{customerData?.totalLoanAmount} ]</h2>
+          <h2 className="!text-sm sm:!text-xl">
+            Loan Amount Information [ ₹.{customerData?.totalLoanAmount} ]
+          </h2>
           <button
             className="px-4 py-2 rounded-md text-[12px] uppercase font-bold text-secondary hover:bg-gray-300/50 cursor-pointer flex items-center gap-2"
             onClick={() => navigate(-1)}

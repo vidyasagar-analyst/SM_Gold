@@ -30,14 +30,19 @@ const InvestmentInfo = () => {
     if (investorName && investment) {
       try {
         const result = await axios.post(
-          "http://localhost:8000/api/v1/investment/investment-update",
+          `${
+            import.meta.env.VITE_BACKEND_BASE_URL
+          }/investment/investment-update`,
           { investorName, investment }
         );
         setInvestorName("");
         setInvestment("");
         toast.success(result?.data?.message);
       } catch (error) {
-        toast.error(result?.response?.data?.message);
+        toast.error(
+          error?.response?.data?.message ||
+            "Failed to Update the Investment! Try Again Later!"
+        );
       }
     }
   };
@@ -47,7 +52,7 @@ const InvestmentInfo = () => {
   }, []);
   return (
     <div className="h-fixed pt-24 flex justify-center">
-      <div className="w-3/4">
+      <div className="w-[95%] sm:w-3/4">
         <div className="flex items-center justify-between">
           <h2>Investment Information</h2>
           <button
@@ -57,7 +62,7 @@ const InvestmentInfo = () => {
             <IoMdArrowRoundBack /> back
           </button>
         </div>
-        <div className="grid grid-cols-3 gap-5 my-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 my-5">
           <div className="col w-full flex flex-col">
             <InfoCard
               heading={`₹.${investmentData?.totalInvestment}`}
@@ -65,7 +70,7 @@ const InvestmentInfo = () => {
             />
 
             <form
-              className="mt-5 w-[325px] p-4 bg-white border border-gray-400/25 rounded-md shadow-md"
+              className="mt-5 w-full p-4 bg-white border border-gray-400/25 rounded-md shadow-md"
               onSubmit={handleSubmit}
             >
               <div className="mb-3 pb-4 border-b border-gray-300/50">
@@ -137,7 +142,7 @@ const InvestmentInfo = () => {
             </form>
           </div>
 
-          <div className="col-span-2 border border-gray-400/25 rounded-lg p-4 shadow-md bg-white">
+          <div className="col sm:col-span-2 border border-gray-400/25 rounded-lg p-3 sm:p-4 shadow-md bg-white">
             <div className="mb-3 pb-4 border-b border-gray-300/50">
               <h3>Investor's Info</h3>
               <p className="mt-2 !text-[12px] tracking-wider">

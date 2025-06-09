@@ -9,7 +9,7 @@ const Expenses = ({ expenseData, capitalize }) => {
   const currMonthExpense = expenseData?.currentMonthExpenses;
   return (
     <div>
-      <div className="flex items-center justify-between my-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between my-5">
         <InfoCard
           heading={`₹.${expenseData?.balanceInvestment}`}
           subTitle="Balance Investment "
@@ -37,7 +37,7 @@ const Expenses = ({ expenseData, capitalize }) => {
           </div>
         ) : (
           //   <ProfitTable customerData={customerData} capitalize={capitalize}
-          <div className="grid grid-cols-2 items-center gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-5">
             <div className="col">
               <h3 className="mb-2">All Expenses Details</h3>
               <ExpenseTable expenseData={allExpenses} capitalize={capitalize} />

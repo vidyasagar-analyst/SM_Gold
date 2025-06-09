@@ -24,11 +24,13 @@ const CustCard = ({
   const updateCustomer = async (id) => {
     try {
       const result = await axios.put(
-        `http://localhost:8000/api/v1/customers/complete-customer/${id}`
+        `${
+          import.meta.env.VITE_BACKEND_BASE_URL
+        }/customers/complete-customer/${id}`
       );
       toast.success(result?.data?.message);
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      toast.error("Failed to Complete this Customer! Try Again Later!");
     }
   };
 
@@ -52,13 +54,13 @@ const CustCard = ({
 
   return (
     <div
-      className={`p-4 border ${
+      className={`p-2 sm:p-4 border ${
         cust?.status == "Completed"
           ? "border-green-500/25 shadow-green-500/50"
           : "border-red-500/25 shadow-red-500/50"
       } hover:shadow rounded-lg my-3 bg-gray-200/35`}
     >
-      <div className="flex flex-col">
+      <div className="sm:flex sm:flex-col">
         <div className="flex items-center justify-between">
           <Link to={`/customer/${custId}`} className="flex items-center gap-2">
             <div className="border border-gray-200 rounded-md p-2.5">
@@ -90,7 +92,7 @@ const CustCard = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="sm:flex sm:items-center sm:justify-between">
           <div className="grid grid-cols-2 gap-20 mt-4">
             <div className="col flex flex-col gap-1.5">
               <p className="!text-[12px] font-semibold">Cust ID</p>

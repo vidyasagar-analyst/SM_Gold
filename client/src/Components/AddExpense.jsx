@@ -20,7 +20,7 @@ const AddExpense = ({ closeAddExp }) => {
     if (expense && amount) {
       try {
         const result = await axios.post(
-          "http://localhost:8000/api/v1/expense/add-expense",
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/expense/add-expense`,
           { expense, amount, user }
         );
 
@@ -29,7 +29,7 @@ const AddExpense = ({ closeAddExp }) => {
       } catch (error) {
         toast.error(
           error?.response?.data?.message ||
-            "Something Went Wrong! Try Again Later!"
+            "Failed to Add Expense! Try Again Later!"
         );
       }
     }
@@ -42,9 +42,9 @@ const AddExpense = ({ closeAddExp }) => {
   return (
     <div className="modal overflow-hidden z-50">
       <div className="modalOverlay"></div>
-      <div className="bg-white shadow-lg rounded-md p-8 z-50 flex flex-col justify-center items-center absolute top-32 left-[600px]">
+      <div className="bg-white shadow-lg rounded-md p-8 z-50 flex flex-col justify-center items-center absolute top-[27%] left-[12.5%] sm:top-32 sm:left-[600px]">
         <form onSubmit={handleSubmit}>
-          <h2 className="font-bold text-center">Add Todays Expense</h2>
+          <h2 className="font-bold mb-3">Add Todays Expense</h2>
           <div className="flex flex-col gap-2 mb-5">
             <label htmlFor="expenseName" className="text-sm font-semibold">
               Expense Name

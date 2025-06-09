@@ -17,10 +17,10 @@ const Notifications = () => {
   });
 
   return (
-    <div className="flex justify-center pt-24 h-fixed">
-      <div className="w-3/4">
+    <div className="flex justify-center pt-16 sm:pt-24 h-fixed">
+      <div className="w-[95%] sm:w-3/4">
         {nextDueCustomers?.length < 1 ? (
-          <div className="h-[450px] mt-5 flex flex-col items-center justify-center">
+          <div className="h-[90%] sm:h-[450px] mt-5 flex flex-col items-center justify-center">
             <h2 className="!text-red-500 animate-bounce">
               No Near Due Customers Found!
             </h2>

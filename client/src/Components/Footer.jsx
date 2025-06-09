@@ -7,10 +7,10 @@ const Footer = () => {
   return (
     <>
       {isAuth && (
-        <div className="w-full py-2 flex items-center justify-center bg-white">
-          <p className="tracking-wider !text-[12px]">
-            &copy; {year} SRI MAHALAKSHMI GOLD LOAN AND FINANACE | Designed and
-            Developed by PRABANJAN |{" "}
+        <div className="w-full py-2 flex items-center justify-center">
+          <p className="tracking-wider !text-[7px] sm:!text-[12px]">
+            &copy; {year} SRI MAHALAKSHMI FINANCE | Designed and Developed by
+            PRABANJAN |{" "}
             <a href="https://syntxinfotech.com/" target="_blank">
               SYNTX Info Tech
             </a>

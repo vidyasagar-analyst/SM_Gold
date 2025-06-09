@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReceiptView from "../Components/ReceiptView";
 import { AppContext } from "../Utils/AppContext";
 import axios from "axios";
 import { toast } from "sonner";
+import { useReactToPrint } from "react-to-print";
 
 const CustomerInfo = () => {
   const { id } = useParams();
@@ -12,6 +13,18 @@ const CustomerInfo = () => {
   const customer = customerData?.allCustomersList?.find(
     (cust) => cust?.custID == id
   );
+
+  // Print the Receipt
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({
+    contentRef,
+    documentTitle: `SMG${customer?.custID}-${customer?.custName}`,
+    onAfterPrint: () => {
+      toast.success(
+        `${capitalize(customer?.custName)} was Printed Successfully`
+      );
+    },
+  });
 
   const [ornamentName, setOrnamentName] = useState("");
   const [count, setCount] = useState("");
@@ -32,7 +45,9 @@ const CustomerInfo = () => {
 
     try {
       const result = await axios.post(
-        `http://localhost:8000/api/v1/customers/add-ornament/${customer?._id}`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/customers/add-ornament/${
+          customer?._id
+        }`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -40,7 +55,7 @@ const CustomerInfo = () => {
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||
-          "Something Went Wrong! Try Again Later!"
+          "Failed to Add Ornament! Try Again Later!"
       );
     }
   };
@@ -51,11 +66,11 @@ const CustomerInfo = () => {
 
   return (
     <div className="py-20 flex items-center justify-center mt-10">
-      <div className="w-3/4 px-20">
+      <div className="w-[95%] sm:w-3/4 sm:px-20">
         <div className="p-4 border border-gray-400/25 rounded-md shadow-lg mb-16">
           <h3>Add the Ornament Information</h3>
           <form
-            className="grid grid-cols-7 items-center gap-2 mt-2"
+            className="grid grid-cols-2 sm:grid-cols-7 items-center gap-2 mt-2"
             onSubmit={handleSumbit}
           >
             <input
@@ -112,7 +127,20 @@ const CustomerInfo = () => {
           </form>
         </div>
         <div className="">
-          <ReceiptView customer={customer} capitalize={capitalize} />
+          <ReceiptView
+            customer={customer}
+            capitalize={capitalize}
+            contentRef={contentRef}
+          />
+        </div>
+
+        <div className="mt-10 flex items-center justify-end px-10">
+          <button
+            className="px-4 py-2 rounded-md text-[12px] uppercase font-bold text-green-500 bg-green-300/25 hover:bg-green-400/25 cursor-pointer flex items-center gap-2"
+            onClick={reactToPrintFn}
+          >
+            Print Receipt
+          </button>
         </div>
       </div>
     </div>

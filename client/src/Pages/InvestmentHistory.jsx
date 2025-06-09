@@ -14,7 +14,7 @@ const InvestmentHistory = () => {
 
   return (
     <div className="h-fixed pt-24 flex justify-center pb-5">
-      <div className="w-3/4">
+      <div className="w-[95%] sm:w-3/4">
         <div className="flex items-center justify-between">
           <h2>
             {capitalize(investor?.investorName)}'s Investment History{" "}
@@ -28,14 +28,14 @@ const InvestmentHistory = () => {
           </button>
         </div>
 
-        <div className="relative overflow-y-auto max-h-[525px] mt-4 border border-gray-300/50 rounded-md shadow">
+        <div className="relative overflow-y-auto max-h-[650px] sm:max-h-[525px] mt-4 border border-gray-300/50 rounded-md shadow">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-300/25">
               <tr>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-3 py-2 sm:px-6 sm:py-3">
                   Investment
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-3 py-2 sm:px-6 sm:py-3">
                   Transaction Date
                 </th>
               </tr>
@@ -47,7 +47,7 @@ const InvestmentHistory = () => {
                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                       <th
                         scope="row"
-                        className={`px-6 py-4 font-medium text-gray-900 whitespace-nowrap tracking-wider ${
+                        className={`px-3 py-2 sm:px-6 sm:py-4 font-medium text-gray-900 whitespace-nowrap tracking-wider ${
                           history?.amount < 0
                             ? "!text-red-500"
                             : "!text-green-600"
@@ -56,7 +56,7 @@ const InvestmentHistory = () => {
                         ₹.{history?.amount}
                       </th>
 
-                      <td className="px-6 py-4 font-semibold">
+                      <td className="px-3 py-2 sm:px-6 sm:py-4 font-semibold">
                         {new Date(history?.date).toDateString().slice(4)}
                       </td>
                     </tr>

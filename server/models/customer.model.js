@@ -33,6 +33,7 @@ const CustomerSchema = new mongoose.Schema(
   {
     custID: {
       type: Number,
+      unique: true,
     },
     custName: {
       type: String,
@@ -113,5 +114,18 @@ const CustomerSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+CustomerSchema.pre("save", async function (next) {
+  if (this.isNew) {
+    const lastCustomer = await mongoose
+      .model("customer")
+      .findOne({})
+      .sort({ custID: -1 })
+      .limit(1);
+
+    this.custID = lastCustomer ? lastCustomer?.custID + 1 : 10001;
+  }
+  next();
+});
 
 export const CustomerModel = mongoose.model("customer", CustomerSchema);

@@ -23,7 +23,7 @@ import BalanceInvestment from "./Pages/BalanceInvestment";
 
 const App = () => {
   return (
-    <div className="px-20">
+    <div className="px-5 overflow-x-hidden sm:px-20">
       <AppContextProvider>
         <Router>
           <Navbar />

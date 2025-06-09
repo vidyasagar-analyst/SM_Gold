@@ -2,121 +2,125 @@ import express from "express";
 import { CustomerModel } from "../models/customer.model.js";
 import { InvestmentModel } from "../models/investment.model.js";
 
-import multer from "multer";
+// import multer from "multer";
+import { upload } from "../utils/multerConfig.js";
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads/");
+//   },
 
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + "-" + file.originalname);
+//   },
+// });
 
-export const uploadImg = multer({ storage: storage });
+// export const uploadImg = multer({ storage: storage });
 
-router.post("/add-customer", uploadImg.single("custImg"), async (req, res) => {
-  const {
-    custName,
-    address,
-    pincode,
-    mobile,
-    aadhar,
-    actualLoanAmount,
-    interestRate,
-    schema,
-    nominee,
-  } = req.body;
-
-  try {
-    const customer = await CustomerModel.findOne({ custName });
-    const customers = await CustomerModel.find({});
-    const investors = await InvestmentModel.find({});
-
-    if (customer) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Already Customer Exists!" });
-    }
-
-    const customerID = 1001 + customers?.length;
-    const now = new Date();
-    const today = now.toDateString();
-
-    const pledge = today.slice(4).replaceAll(" ", "-");
-
-    const nextDueMonth = new Date(
-      now.getFullYear(),
-      now.getMonth() + Number(schema),
-      now.getDate()
-    ).toDateString();
-    const nextDueYear = new Date(
-      now.getFullYear() + 1,
-      now.getMonth(),
-      now.getDate()
-    ).toDateString();
-
-    const processingFee = (actualLoanAmount * 0.4) / 100;
-    const finalLoanAmount = actualLoanAmount - processingFee;
-
-    const newCustomer = new CustomerModel({
-      custID: customerID,
+router.post(
+  "/add-customer",
+  upload.fields([{ name: "custImg", maxCount: 1 }]),
+  async (req, res) => {
+    const {
       custName,
-      custImg: `uploads/${req.file.filename}`,
       address,
       pincode,
       mobile,
       aadhar,
       actualLoanAmount,
-      finalLoanAmount,
-      interestRate: Number(interestRate),
-      processingFee,
-      interestAmount: 0,
-      totalProfit: processingFee,
-      pledgeDate: pledge,
+      interestRate,
       schema,
       nominee,
-      interestDue: nextDueMonth,
-      maturity: nextDueYear,
-    });
+    } = req.body;
 
-    const totalInvestment = investors?.reduce((acc, investor) => {
-      return acc + investor?.investment;
-    }, 0);
+    try {
+      const customer = await CustomerModel.findOne({ custName });
+      const customers = await CustomerModel.find({});
+      const investors = await InvestmentModel.find({});
 
-    const totalLoanAmount = customers.reduce((acc, cust) => {
-      return acc + cust?.actualLoanAmount;
-    }, 0);
+      if (customer) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Already Customer Exists!" });
+      }
 
-    const balanceInvestment = totalInvestment - totalLoanAmount;
+      // const customerID = 1001 + customers?.length;
+      const now = new Date();
+      const today = now.toDateString();
 
-    if (newCustomer?.actualLoanAmount > balanceInvestment) {
-      return res.status(400).json({
+      const pledge = today.slice(4).replaceAll(" ", "-");
+
+      const nextDueMonth = new Date(
+        now.getFullYear(),
+        now.getMonth() + Number(schema),
+        now.getDate()
+      ).toDateString();
+      const nextDueYear = new Date(
+        now.getFullYear() + 1,
+        now.getMonth(),
+        now.getDate()
+      ).toDateString();
+
+      const processingFee = (actualLoanAmount * 0.4) / 100;
+      const finalLoanAmount = actualLoanAmount - processingFee;
+
+      const newCustomer = new CustomerModel({
+        custName,
+        custImg: req.files["custImg"]?.[0]?.path || "",
+        address,
+        pincode,
+        mobile,
+        aadhar,
+        actualLoanAmount,
+        finalLoanAmount,
+        interestRate: Number(interestRate),
+        processingFee,
+        interestAmount: 0,
+        totalProfit: processingFee,
+        pledgeDate: pledge,
+        schema,
+        nominee,
+        interestDue: nextDueMonth,
+        maturity: nextDueYear,
+      });
+
+      const totalInvestment = investors?.reduce((acc, investor) => {
+        return acc + investor?.investment;
+      }, 0);
+
+      const totalLoanAmount = customers.reduce((acc, cust) => {
+        return acc + cust?.actualLoanAmount;
+      }, 0);
+
+      const balanceInvestment = totalInvestment - totalLoanAmount;
+
+      if (newCustomer?.actualLoanAmount > balanceInvestment) {
+        return res.status(400).json({
+          success: false,
+          message: `Insufficient Balance! ₹. ${balanceInvestment}`,
+        });
+      }
+
+      await newCustomer.save();
+
+      res.status(201).json({
+        success: true,
+        message: "Customer Added Successfully",
+      });
+    } catch (error) {
+      res.status(500).json({
         success: false,
-        message: `Insufficient Balance! ₹. ${balanceInvestment}`,
+        message: `Customer add Failed: ${error.message}`,
       });
     }
-
-    await newCustomer.save();
-
-    res.status(201).json({
-      success: true,
-      message: "Customer Added Successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: `Customer add Failed: ${error.message}`,
-    });
   }
-});
+);
 
 router.post(
   "/add-ornament/:id",
-  uploadImg.single("ornamentImg"),
+  upload.fields([{ name: "ornamentImg", maxCount: 1 }]),
   async (req, res) => {
     const { ornamentName, count, grossWeight, stoneWeight, remarks } = req.body;
     const { id } = req.params;
@@ -136,7 +140,7 @@ router.post(
         grossWeight,
         stoneWeight,
         remarks,
-        ornamentImg: `uploads/${req.file.filename}`,
+        ornamentImg: req.files["ornamentImg"]?.[0]?.path || "",
       };
 
       customer.ornaments.push(ornament);
